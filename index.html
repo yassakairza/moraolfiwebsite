@@ -147,6 +147,11 @@
     .fki-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 22px; margin-top: 14px; }
     .fki-grid p { padding-top: 12px; border-top: 1px solid var(--soft-line); }
     .fki-grid strong { display: block; margin-bottom: 4px; font-size: .82rem; }
+    .project-pair { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(5, auto); column-gap: 28px; }
+    .project-pair .project { display: grid; grid-row: span 5; grid-template-rows: subgrid; }
+    .project-divider { border-top: 1px solid var(--soft-line); }
+    .project-content > p { padding-top: 12px; border-top: 1px solid var(--soft-line); }
+    .project-content > p:first-child, .project-pair .fki-grid > p:first-child { border-top: 0; }
 
     .collab { position: relative; overflow: hidden; background: var(--orange); }
     .collab::after { content: ""; position: absolute; width: 400px; height: 400px; right: -160px; bottom: -220px; border: 1px solid rgba(26,26,26,.5); border-radius: 50%; box-shadow: 0 0 0 25px rgba(26,26,26,.06), 0 0 0 50px rgba(26,26,26,.05); pointer-events: none; }
@@ -210,6 +215,8 @@
       .market-pair { grid-template-columns: 1fr; gap: 22px; }
       .market-stamp { right: -18px; width: 92px; }
       .project-rail { grid-template-columns: 1fr; gap: 28px; }
+      .project-pair { grid-column: auto; grid-template-columns: 1fr; grid-template-rows: none; row-gap: 28px; }
+      .project-pair .project { display: flex; grid-row: auto; }
       .project h3 { font-size: 1.12rem; }
       .fki-grid { grid-template-columns: 1fr; }
       .opportunities { grid-template-columns: 1fr 1fr; }
@@ -312,33 +319,42 @@
         </article>
 
         <div class="project-rail">
-          <article class="project reveal">
-            <div class="project-art"><img src="https://placehold.co/700x520/FBF8F1/1A1A1A?text=%5BPOP+ART+Jakarta+resin+statue%5D" alt="[Mora and Olfi resin statue at POP ART Jakarta placeholder]"></div>
-            <h3>POP ART JAKARTA</h3><p class="date">Monas, 2023</p>
-            <div class="fki-grid">
-              <p><strong>From Art to Statue</strong>Turning Mora &amp; Olfi from Concept Characters into a full resin statue piece, proudly sponsored by POP ART Jakarta.</p>
-              <p><strong>Exhibition in Monas</strong>An outdoor 3D resin installation at Monas, accessible for everyone to enjoy.</p>
-              <p><strong>Creator’s Handprint</strong>Featuring the creator’s handprint on the statue as a personal signature.</p>
-            </div>
-          </article>
-          <article class="project reveal">
-            <div class="project-art"><img src="https://placehold.co/700x520/F3EEE5/1A1A1A?text=%5BKAI+train+carriage+exterior%5D" alt="[Mora and Olfi livery on a KAI train carriage placeholder]"></div>
-            <h3>Mora &amp; Olfi di gerbong KAI</h3><p class="date">Dec 2025 – Feb 2026</p>
-            <p>Livery ‘Kereta Api Indonesia’</p><p>Platform for Christmas and New Year</p><p>Themed Exterior (Jakarta-Surabaya)</p>
-          </article>
-          <article class="project reveal">
-            <div class="project-art"><img src="https://placehold.co/700x520/F47721/1A1A1A?text=%5BFKI+art+installation%5D" alt="[Festival Kekayaan Intelektual art installation placeholder]"></div>
-            <h3>Festival Kekayaan Intelektual</h3><p class="date">Taman Ismail Marzuki, 2025</p>
-            <div class="fki-grid">
-              <p><strong>FKI Art Installation</strong>Supported by Ekraf, we presented an art installation that introduced our IP characters through immersive and interactive visuals</p>
-              <p><strong>IP Information Platform</strong>Ekraf also supported our IP information area, which highlighted our creative process, character backgrounds, and future development potential.</p>
-              <p><strong>Showcase</strong>Visitors could experience how our creations evolve from illustrations into a real art installation experience</p>
-            </div>
-          </article>
-          <article class="project reveal">
-            <div class="project-art"><img src="https://placehold.co/700x520/FBF8F1/1A1A1A?text=%5BSpooky+Adventure+installation%5D" alt="[Spooky Adventure Halloween installation placeholder]"></div>
-            <h3>Spooky Adventure</h3><p class="date">Bogor, 2025</p><p>Spooky Adventure on Halloween, a themed art installation showcased in Bogor, 2025</p>
-          </article>
+          <div class="project-pair">
+            <article class="project reveal">
+              <div class="project-art"><img src="https://placehold.co/700x520/FBF8F1/1A1A1A?text=%5BPOP+ART+Jakarta+resin+statue%5D" alt="[Mora and Olfi resin statue at POP ART Jakarta placeholder]"></div>
+              <h3>POP ART JAKARTA</h3><p class="date">Monas, 2023</p>
+              <div class="project-divider" aria-hidden="true"></div>
+              <div class="fki-grid">
+                <p><strong>From Art to Statue</strong>Turning Mora &amp; Olfi from Concept Characters into a full resin statue piece, proudly sponsored by POP ART Jakarta.</p>
+                <p><strong>Exhibition in Monas</strong>An outdoor 3D resin installation at Monas, accessible for everyone to enjoy.</p>
+                <p><strong>Creator’s Handprint</strong>Featuring the creator’s handprint on the statue as a personal signature.</p>
+              </div>
+            </article>
+            <article class="project reveal">
+              <div class="project-art"><img src="https://placehold.co/700x520/F3EEE5/1A1A1A?text=%5BKAI+train+carriage+exterior%5D" alt="[Mora and Olfi livery on a KAI train carriage placeholder]"></div>
+              <h3>Mora &amp; Olfi di gerbong KAI</h3><p class="date">Dec 2025 – Feb 2026</p>
+              <div class="project-divider" aria-hidden="true"></div>
+              <div class="project-content"><p>Livery ‘Kereta Api Indonesia’, Platform for Christmas and New Year, Themed Exterior (Jakarta-Surabaya)</p></div>
+            </article>
+          </div>
+          <div class="project-pair">
+            <article class="project reveal">
+              <div class="project-art"><img src="https://placehold.co/700x520/F47721/1A1A1A?text=%5BFKI+art+installation%5D" alt="[Festival Kekayaan Intelektual art installation placeholder]"></div>
+              <h3>Festival Kekayaan Intelektual</h3><p class="date">Taman Ismail Marzuki, 2025</p>
+              <div class="project-divider" aria-hidden="true"></div>
+              <div class="fki-grid">
+                <p><strong>FKI Art Installation</strong>Supported by Ekraf, we presented an art installation that introduced our IP characters through immersive and interactive visuals</p>
+                <p><strong>IP Information Platform</strong>Ekraf also supported our IP information area, which highlighted our creative process, character backgrounds, and future development potential.</p>
+                <p><strong>Showcase</strong>Visitors could experience how our creations evolve from illustrations into a real art installation experience</p>
+              </div>
+            </article>
+            <article class="project reveal">
+              <div class="project-art"><img src="https://placehold.co/700x520/FBF8F1/1A1A1A?text=%5BSpooky+Adventure+installation%5D" alt="[Spooky Adventure Halloween installation placeholder]"></div>
+              <h3>Spooky Adventure</h3><p class="date">Bogor, 2025</p>
+              <div class="project-divider" aria-hidden="true"></div>
+              <div class="project-content"><p>Spooky Adventure on Halloween, a themed art installation showcased in Bogor, 2025</p></div>
+            </article>
+          </div>
         </div>
       </div>
     </section>
