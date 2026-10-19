@@ -130,7 +130,14 @@
 
     .market { display: grid; grid-template-columns: .75fr 1.25fr; gap: clamp(30px, 7vw, 90px); align-items: center; }
     .market-visual { position: relative; }
-    .market-visual img { aspect-ratio: 4/5; object-fit: cover; border: 3px solid var(--ink); border-radius: 44% 44% 20px 20px; background: var(--paper-light); box-shadow: var(--shadow); }
+    .market-carousel { position: relative; aspect-ratio: 4/5; overflow: hidden; border: 3px solid var(--ink); border-radius: 44% 44% 20px 20px; background: var(--orange); box-shadow: var(--shadow); }
+    .market-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .5s ease; }
+    .market-visual img.is-active { opacity: 1; }
+    .market-carousel-dots { position: absolute; z-index: 2; left: 50%; bottom: 15px; display: flex; gap: 8px; padding: 7px 10px; border-radius: 999px; background: rgba(251,248,241,.76); transform: translateX(-50%); }
+    .market-dot { width: 9px; height: 9px; padding: 0; border: 1px solid var(--ink); border-radius: 50%; background: rgba(26,26,26,.32); cursor: pointer; transition: background .2s ease, transform .2s ease; }
+    .market-dot[aria-pressed="true"] { background: var(--orange-deep); }
+    .market-dot:hover { transform: scale(1.15); }
+    .market-dot:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
     .market-stamp { position: absolute; right: -20px; top: 8%; display: grid; place-items: center; width: 110px; aspect-ratio: 1; padding: 14px; border: 2px solid var(--ink); border-radius: 50%; background: var(--orange); text-align: center; font: 600 1rem/1 var(--display); transform: rotate(11deg); }
     .market-copy h2 { margin-bottom: 18px; }
     .market-copy > p { max-width: 600px; margin: 0 0 35px; font-size: 1.1rem; }
@@ -194,6 +201,8 @@
       .partner-logo { flex-basis: 112px; height: 48px; font-size: .82rem; }
     }
     @media (prefers-reduced-motion: reduce) {
+      .market-visual img { transition: none; }
+      .market-carousel-dots { display: none; }
       .partners-marquee { overflow: visible; }
       .partners-track { width: 100%; flex-wrap: wrap; justify-content: center; animation: none; }
       .partner-group { display: contents; }
@@ -376,7 +385,22 @@
 
     <section class="section-pad wrap" id="market" aria-labelledby="market-title">
       <div class="market">
-        <div class="market-visual reveal"><img src="https://placehold.co/800x1000/F47721/1A1A1A?text=%5BMerchandise+and+art+market%5D" alt="[Mora and Olfi merchandise and art market display placeholder]"><div class="market-stamp" aria-hidden="true">Merchandise<br>&amp; Art Market</div></div>
+        <div class="market-visual reveal">
+          <div class="market-carousel" id="merchandise-carousel" role="region" aria-roledescription="carousel" aria-label="Merchandise photos">
+            <!-- [Merchandise photo 1] /* TODO: replace with real merchandise/market photos */ -->
+            <img class="market-slide is-active" src="merchandise-display-red.png" alt="Red Mora &amp; Olfi merchandise display with comics, stickers, and collectibles" aria-hidden="false">
+            <!-- [Merchandise photo 2] /* TODO: replace with real merchandise/market photos */ -->
+            <img class="market-slide" src="merchandise-display-orange.png" alt="Orange Mora &amp; Olfi merchandise display filled with character products and collectibles" aria-hidden="true">
+            <!-- [Merchandise photo 3] /* TODO: replace with real merchandise/market photos */ -->
+            <img class="market-slide" src="merchandise-art-market-stall.png" alt="Mora &amp; Olfi art market stall with character merchandise on display" aria-hidden="true">
+            <div class="market-carousel-dots" role="group" aria-label="Choose a merchandise photo">
+              <button class="market-dot" type="button" aria-label="Show merchandise photo 1" aria-controls="merchandise-carousel" aria-pressed="true"></button>
+              <button class="market-dot" type="button" aria-label="Show merchandise photo 2" aria-controls="merchandise-carousel" aria-pressed="false"></button>
+              <button class="market-dot" type="button" aria-label="Show merchandise photo 3" aria-controls="merchandise-carousel" aria-pressed="false"></button>
+            </div>
+          </div>
+          <div class="market-stamp" aria-hidden="true">Merchandise<br>&amp; Art Market</div>
+        </div>
         <div class="market-copy reveal">
           <p class="eyebrow">Merchandise and Art Market</p><h2 class="section-title" id="market-title">Made to<br>be collected</h2>
           <p>We create collectible merchandise designed specifically for our audience, focusing on quality and products that our audience can proudly add to their personal collections</p>
@@ -519,6 +543,56 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   <script>
     if (window.lucide) window.lucide.createIcons();
+
+    const merchandiseCarousel = document.querySelector('.market-carousel');
+    if (merchandiseCarousel) {
+      const merchandiseSlides = [...merchandiseCarousel.querySelectorAll('.market-slide')];
+      const merchandiseDots = [...merchandiseCarousel.querySelectorAll('.market-dot')];
+      const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let activeMerchandiseSlide = 0;
+      let merchandiseTimer = null;
+      let merchandiseHovered = false;
+
+      const showMerchandiseSlide = index => {
+        activeMerchandiseSlide = index;
+        merchandiseSlides.forEach((slide, slideIndex) => {
+          const active = slideIndex === index;
+          slide.classList.toggle('is-active', active);
+          slide.setAttribute('aria-hidden', String(!active));
+          merchandiseDots[slideIndex].setAttribute('aria-pressed', String(active));
+        });
+      };
+      const stopMerchandiseTimer = () => {
+        window.clearInterval(merchandiseTimer);
+        merchandiseTimer = null;
+      };
+      const startMerchandiseTimer = () => {
+        stopMerchandiseTimer();
+        if (motionPreference.matches || merchandiseHovered || document.visibilityState !== 'visible') return;
+        merchandiseTimer = window.setInterval(() => {
+          showMerchandiseSlide((activeMerchandiseSlide + 1) % merchandiseSlides.length);
+        }, 3000);
+      };
+
+      merchandiseDots.forEach((dot, index) => dot.addEventListener('click', () => {
+        showMerchandiseSlide(index);
+        startMerchandiseTimer();
+      }));
+      merchandiseCarousel.addEventListener('mouseenter', () => {
+        merchandiseHovered = true;
+        stopMerchandiseTimer();
+      });
+      merchandiseCarousel.addEventListener('mouseleave', () => {
+        merchandiseHovered = false;
+        startMerchandiseTimer();
+      });
+      document.addEventListener('visibilitychange', startMerchandiseTimer);
+      motionPreference.addEventListener('change', () => {
+        if (motionPreference.matches) showMerchandiseSlide(0);
+        startMerchandiseTimer();
+      });
+      startMerchandiseTimer();
+    }
 
     document.querySelectorAll('.comic-panel').forEach(panel => {
       const track = panel.querySelector('.carousel-track');
