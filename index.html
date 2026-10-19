@@ -112,7 +112,9 @@
     .content-top:hover .content-sticker { transform: rotate(3deg) scale(1.04); }
     .content-top .section-title { max-width: 600px; }
     .content-top p { max-width: 260px; margin: 0; font-weight: 700; }
-    .content-panels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(32px, 4vw, 48px); width: min(100%, 840px); margin-inline: auto; align-items: start; }
+    .content-panels { display: grid; grid-template-columns: minmax(0, 16fr) minmax(0, 9fr); gap: clamp(32px, 4vw, 48px); width: min(100%, 900px); margin-inline: auto; align-items: stretch; }
+    .content-panels > .comic-panel { display: flex; flex-direction: column; }
+    .content-panels .panel-label { margin-top: auto; }
     .comic-panel { overflow: hidden; border: 3px solid var(--ink); border-radius: var(--curve); background: var(--paper-light); box-shadow: 5px 6px 0 var(--ink); transition: transform .25s ease, box-shadow .25s ease; }
     .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-inline: contain; }
     .carousel-track::-webkit-scrollbar { display: none; }
@@ -120,7 +122,8 @@
     .carousel-slide img { width: 100%; aspect-ratio: 1.2 / 1; object-fit: cover; }
 
     .content-panels .carousel-slide { background: var(--paper-light); }
-    .content-panels .carousel-slide img { aspect-ratio: 9 / 16; object-fit: cover; }
+    .content-panels > .comic-panel[aria-label="Strip comic carousel"] .carousel-slide img { aspect-ratio: 1 / 1; object-fit: contain; }
+    .content-panels > .comic-panel[aria-label="Short animation carousel"] .carousel-slide img { aspect-ratio: 9 / 16; object-fit: cover; }
 
 
     .panel-label { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 70px; padding: 14px 20px; }
@@ -250,7 +253,7 @@
       .what-sticker { width: clamp(140px, 18vw, 160px); margin: 20px auto -8px; }
       .what-heading { position: static; }
       .content-top, .ex-head { align-items: start; flex-direction: column; }
-      .content-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; width: 100%; }
+      .content-panels { grid-template-columns: minmax(0, 16fr) minmax(0, 9fr); gap: 32px; width: 100%; }
 
       .market-visual { width: min(78%, 380px); margin: 0 auto; }
       .ex-feature .visual { min-height: 380px; }
@@ -277,6 +280,7 @@
       .what-sticker { width: 132px; }
       .content-sticker { top: -42px; right: 0; width: 110px; }
       .content-panels { grid-template-columns: 1fr; gap: 40px; }
+      .content-panels > .comic-panel[aria-label="Short animation carousel"] { width: min(100%, 280px); justify-self: center; margin: 0; }
       .what-row { grid-template-columns: 1fr; gap: 8px; padding-block: 18px 22px; }
       .market-pair { grid-template-columns: 1fr; gap: 22px; }
       .market-online { grid-column: 1; }
