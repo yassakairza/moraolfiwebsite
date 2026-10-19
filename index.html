@@ -83,13 +83,14 @@
     h1 .amp { color: var(--orange); }
     .hero-sub { margin: 26px 0 0; font-weight: 800; font-size: 1.1rem; }
 
-    .about { position: relative; padding-block: clamp(65px, 9vw, 112px); background: var(--ink); color: var(--paper-light); }
-    .about-grid { display: grid; grid-template-columns: .78fr 1.22fr; gap: clamp(28px, 8vw, 110px); align-items: start; }
+    .about { position: relative; overflow: hidden; padding-block: clamp(65px, 9vw, 112px); background: var(--ink); color: var(--paper-light); }
+    .about-grid { position: relative; z-index: 1; display: grid; grid-template-columns: .78fr 1.22fr; gap: clamp(28px, 8vw, 110px); align-items: start; }
+    .about-grid > div { z-index: 1; }
     .about .eyebrow { color: var(--paper); }
     .about .section-title { color: var(--orange); }
     .about-copy { max-width: 720px; margin: 0; font-size: clamp(1.25rem, 2.25vw, 2rem); font-weight: 600; line-height: 1.4; }
-    .about-copy-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(180px, .8fr); gap: clamp(18px, 3vw, 38px); align-items: center; }
-    .about-art { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border: 2px solid var(--paper-light); border-radius: 18px; background: var(--paper); }
+    .about-copy-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(180px, .8fr); min-height: clamp(190px, 19vw, 260px); gap: clamp(18px, 3vw, 38px); align-items: center; }
+    .about-art { position: absolute; z-index: 0; right: calc(50% - 50vw); bottom: -110px; width: clamp(180px, 20vw, 280px); max-width: 28%; height: auto; object-fit: contain; border: 0; border-radius: 0; background: transparent; pointer-events: none; }
     .about-handles { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
     .handle { padding: 8px 13px; border: 1px solid rgba(251,248,241,.4); border-radius: 999px; color: var(--paper-light); font-size: .9rem; font-weight: 800; }
 
@@ -191,6 +192,8 @@
       .hero::after { background: linear-gradient(90deg, rgba(243,238,229,.96) 0%, rgba(243,238,229,.86) 50%, rgba(243,238,229,.48) 100%); }
       .about-grid { gap: 25px; }
       .about-copy-layout { grid-template-columns: minmax(0, 1.2fr) minmax(160px, .8fr); }
+      .about-copy-layout { min-height: 0; }
+      .about-art { position: relative; right: auto; bottom: auto; width: min(100%, 240px); max-width: 40%; }
       .what { gap: 28px; }
       .what-heading { position: static; }
       .content-top, .ex-head { align-items: start; flex-direction: column; }
@@ -209,8 +212,8 @@
       h1 { font-size: clamp(4.2rem, 21vw, 6.4rem); }
       .hero-grid::after { min-height: 105vw; }
       .hero::before { background-position: 62% center; }
-      .about-copy-layout { grid-template-columns: 1fr; }
-      .about-art { width: min(100%, 380px); }
+      .about-copy-layout { grid-template-columns: 1fr; align-items: start; }
+      .about-art { width: 100vw; max-width: none; margin-left: calc((100% - 100vw) / 2); }
       .what-row { grid-template-columns: 1fr; gap: 8px; padding-block: 18px 22px; }
       .market-pair { grid-template-columns: 1fr; gap: 22px; }
       .market-stamp { right: -18px; width: 92px; }
@@ -264,7 +267,7 @@
         <div>
           <div class="about-copy-layout">
             <p class="about-copy">Mora is a chaotic, bossy orange cat and Olfi is his hooman companion. Their slice-of-life comedy unfolds through heartwarming comic strips and short animations.</p>
-            <img class="about-art" src="images.jpg" alt="An orange cat perched on top of a human">
+            <img class="about-art" src="images-transparent.png" alt="An orange cat perched on top of a human">
           </div>
           <div class="about-handles"><span class="handle">@moraolfi</span><span class="handle">@moraolfi.studio</span></div>
         </div>
