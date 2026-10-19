@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f3eee5">
-  <meta name="description" content="Mora is a chaotic, bossy orange cat who teases his hooman, Olfi, while calling every shot. Their slice-of-life comedy unfolds through heartwarming comic strips and short animations.">
+  <meta name="description" content="Mora is a chaotic, bossy orange cat and Olfi is his hooman companion. Their slice-of-life comedy unfolds through heartwarming comic strips and short animations.">
   <title>Mora &amp; Olfi — Brand Profile</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,6 +88,8 @@
     .about .eyebrow { color: var(--paper); }
     .about .section-title { color: var(--orange); }
     .about-copy { max-width: 720px; margin: 0; font-size: clamp(1.25rem, 2.25vw, 2rem); font-weight: 600; line-height: 1.4; }
+    .about-copy-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(180px, .8fr); gap: clamp(18px, 3vw, 38px); align-items: center; }
+    .about-art { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 2px solid var(--paper-light); border-radius: 18px; background: var(--paper); }
     .about-handles { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
     .handle { padding: 8px 13px; border: 1px solid rgba(251,248,241,.4); border-radius: 999px; color: var(--paper-light); font-size: .9rem; font-weight: 800; }
 
@@ -188,6 +190,7 @@
       .hero::before { background-position: 68% center; }
       .hero::after { background: linear-gradient(90deg, rgba(243,238,229,.96) 0%, rgba(243,238,229,.86) 50%, rgba(243,238,229,.48) 100%); }
       .about-grid { gap: 25px; }
+      .about-copy-layout { grid-template-columns: minmax(0, 1.2fr) minmax(160px, .8fr); }
       .what { gap: 28px; }
       .what-heading { position: static; }
       .content-top, .ex-head { align-items: start; flex-direction: column; }
@@ -206,6 +209,8 @@
       h1 { font-size: clamp(4.2rem, 21vw, 6.4rem); }
       .hero-grid::after { min-height: 105vw; }
       .hero::before { background-position: 62% center; }
+      .about-copy-layout { grid-template-columns: 1fr; }
+      .about-art { width: min(100%, 380px); }
       .what-row { grid-template-columns: 1fr; gap: 8px; padding-block: 18px 22px; }
       .market-pair { grid-template-columns: 1fr; gap: 22px; }
       .market-stamp { right: -18px; width: 92px; }
@@ -255,9 +260,12 @@
 
     <section class="about" id="about" aria-labelledby="about-title">
       <div class="about-grid wrap reveal">
-        <div><p class="eyebrow">Mora &amp; Olfi</p><h2 class="section-title" id="about-title">A cat. His human.<br>Zero peace.</h2></div>
+        <div><p class="eyebrow">Mora &amp; Olfi</p><h2 class="section-title" id="about-title">The Characters and What Brings Them Together</h2></div>
         <div>
-          <p class="about-copy">Mora is a chaotic, bossy orange cat who teases his hooman, Olfi, while calling every shot. Their slice-of-life comedy unfolds through heartwarming comic strips and short animations.</p>
+          <div class="about-copy-layout">
+            <p class="about-copy">Mora is a chaotic, bossy orange cat and Olfi is his hooman companion. Their slice-of-life comedy unfolds through heartwarming comic strips and short animations.</p>
+            <img class="about-art" src="https://placehold.co/700x520/F3EEE5/1A1A1A?text=%5BMora+%26+Olfi+character+art%5D" alt="[Mora and Olfi character artwork placeholder]">
+          </div>
           <div class="about-handles"><span class="handle">@moraolfi</span><span class="handle">@moraolfi.studio</span></div>
         </div>
       </div>
