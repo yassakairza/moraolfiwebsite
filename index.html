@@ -118,6 +118,8 @@
     .carousel-track::-webkit-scrollbar { display: none; }
     .carousel-slide { flex: 0 0 100%; scroll-snap-align: start; }
     .carousel-slide img { width: 100%; aspect-ratio: 1.2 / 1; object-fit: cover; }
+    .comic-panel[aria-label="Strip comic carousel"] .carousel-slide { background: var(--paper-light); }
+    .comic-panel[aria-label="Strip comic carousel"] .carousel-slide img { aspect-ratio: 1 / 1; object-fit: contain; }
     .comic-panel:nth-child(2) { margin-top: 80px; }
     .panel-label { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 70px; padding: 14px 20px; }
     .panel-title { display: grid; gap: 6px; font: 600 1.35rem/1 var(--display); }
@@ -367,9 +369,9 @@
         <div class="content-panels">
           <article class="comic-panel reveal" aria-label="Strip comic carousel">
             <div class="carousel-track" tabindex="0" aria-label="Strip comic images">
-              <div class="carousel-slide"><img src="https://placehold.co/1000x800/F3EEE5/1A1A1A?text=%5BStrip+comic+panel+1%5D" alt="[Strip comic panel 1 placeholder]"></div>
-              <div class="carousel-slide"><img src="https://placehold.co/1000x800/F3EEE5/1A1A1A?text=%5BStrip+comic+panel+2%5D" alt="[Strip comic panel 2 placeholder]"></div>
-              <div class="carousel-slide"><img src="https://placehold.co/1000x800/F3EEE5/1A1A1A?text=%5BStrip+comic+panel+3%5D" alt="[Strip comic panel 3 placeholder]"></div>
+              <div class="carousel-slide"><img src="IMG_2243.PNG" alt="Mora &amp; Olfi strip comic: Mora and Olfi face off in a playful ninja scene." width="1772" height="1772"></div>
+              <div class="carousel-slide"><img src="Untitled_Artwork_118.png" alt="Mora &amp; Olfi strip comic: Mora teases a red-haired character as Olfi reacts." width="1772" height="1772" loading="lazy" decoding="async"></div>
+              <div class="carousel-slide"><img src="Untitled_Artwork_155.png" alt="Mora &amp; Olfi strip comic: Mora sits in a tub while Olfi reacts nearby." width="1772" height="1772" loading="lazy" decoding="async"></div>
             </div>
             <div class="panel-label"><span class="panel-title">STRIP COMIC <small>CONTENT MAKING</small></span><div class="carousel-controls"><button type="button" data-direction="prev" aria-label="Previous strip comic image"><i data-lucide="chevron-left" aria-hidden="true"></i></button><span class="carousel-count" aria-live="polite">01 / 03</span><button type="button" data-direction="next" aria-label="Next strip comic image"><i data-lucide="chevron-right" aria-hidden="true"></i></button></div></div>
           </article>
