@@ -112,9 +112,8 @@
     .content-top:hover .content-sticker { transform: rotate(3deg) scale(1.04); }
     .content-top .section-title { max-width: 600px; }
     .content-top p { max-width: 260px; margin: 0; font-weight: 700; }
-    .content-panels { display: grid; grid-template-columns: minmax(0, 16fr) minmax(0, 9fr); gap: clamp(32px, 4vw, 48px); width: min(100%, 900px); margin-inline: auto; align-items: stretch; }
-    .content-panels > .comic-panel { display: flex; flex-direction: column; }
-    .content-panels .panel-label { margin-top: auto; }
+    .content-panels { display: grid; grid-template-columns: minmax(0, 16fr) minmax(0, 9fr); gap: clamp(32px, 4vw, 48px); width: min(100%, 900px); margin-inline: auto; align-items: start; }
+
     .comic-panel { overflow: hidden; border: 3px solid var(--ink); border-radius: var(--curve); background: var(--paper-light); box-shadow: 5px 6px 0 var(--ink); transition: transform .25s ease, box-shadow .25s ease; }
     .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-inline: contain; }
     .carousel-track::-webkit-scrollbar { display: none; }
