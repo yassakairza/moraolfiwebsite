@@ -121,7 +121,9 @@
     .carousel-slide img { width: 100%; aspect-ratio: 1.2 / 1; object-fit: cover; }
 
     .content-panels .carousel-slide { background: var(--paper-light); }
-    .content-panels > .comic-panel[aria-label="Strip comic carousel"] .carousel-slide img { aspect-ratio: 1 / 1; object-fit: contain; }
+    .content-panels > .comic-panel[aria-label="Strip comic carousel"] .carousel-track { aspect-ratio: 1 / 1; height: auto; min-height: 0; overflow-y: hidden; }
+    .content-panels > .comic-panel[aria-label="Strip comic carousel"] .carousel-slide { height: 100%; }
+    .content-panels > .comic-panel[aria-label="Strip comic carousel"] .carousel-slide img { width: 100%; height: 100%; aspect-ratio: 1 / 1; object-fit: contain; }
     .content-panels > .comic-panel[aria-label="Short animation carousel"] .carousel-slide img { aspect-ratio: 9 / 16; object-fit: cover; }
 
 
