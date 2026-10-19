@@ -107,7 +107,9 @@
     .what-row p { max-width: 490px; margin: 0; }
 
     .content-band { background: var(--orange); border-block: 2px solid var(--ink); }
-    .content-top { display: flex; justify-content: space-between; align-items: end; gap: 25px; margin-bottom: 36px; }
+    .content-top { position: relative; display: flex; justify-content: space-between; align-items: end; gap: 25px; margin-bottom: 36px; }
+    .content-sticker { position: absolute; z-index: 2; top: -24px; right: clamp(0px, 2vw, 28px); width: clamp(130px, 16vw, 220px); height: auto; transform: rotate(8deg); filter: url(#sticker-cutline) drop-shadow(0 5px 5px rgba(26,26,26,.2)); pointer-events: none; transition: transform .25s ease; }
+    .content-top:hover .content-sticker { transform: rotate(3deg) scale(1.04); }
     .content-top .section-title { max-width: 600px; }
     .content-top p { max-width: 260px; margin: 0; font-weight: 700; }
     .content-panels { display: grid; grid-template-columns: 1.15fr .85fr; gap: 20px; align-items: start; }
@@ -269,6 +271,7 @@
       .about-copy-layout { grid-template-columns: 1fr; align-items: start; }
       .about-art { width: 100vw; max-width: none; margin-left: calc((100% - 100vw) / 2); }
       .what-sticker { width: 132px; }
+      .content-sticker { top: -42px; right: 0; width: 110px; }
       .what-row { grid-template-columns: 1fr; gap: 8px; padding-block: 18px 22px; }
       .market-pair { grid-template-columns: 1fr; gap: 22px; }
       .market-online { grid-column: 1; }
@@ -291,6 +294,7 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
       .reveal { opacity: 1; transform: none; }
+      .content-top:hover .content-sticker { transform: rotate(8deg); transition: none; }
     }
   </style>
 </head>
@@ -359,7 +363,7 @@
 
     <section class="content-band section-pad" id="content" aria-labelledby="content-title">
       <div class="wrap">
-        <div class="content-top reveal"><div><p class="eyebrow">Content Making</p><h2 class="section-title" id="content-title">Strip comic<br>&amp; short animation</h2></div></div>
+        <div class="content-top reveal"><div><p class="eyebrow">Content Making</p><h2 class="section-title" id="content-title">Strip comic<br>&amp; short animation</h2></div><img class="content-sticker" src="IMG_0930.png" alt=""></div>
         <div class="content-panels">
           <article class="comic-panel reveal" aria-label="Strip comic carousel">
             <div class="carousel-track" tabindex="0" aria-label="Strip comic images">
