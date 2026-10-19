@@ -133,6 +133,10 @@
     .market-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding-top: 24px; border-top: 2px solid var(--ink); }
     .market-pair h3 { margin: 0 0 8px; font: 600 1.3rem/1.1 var(--display); }
     .market-pair p { margin: 0; font-size: .96rem; }
+    .market-online { grid-column: 1 / -1; }
+    .market-store-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; padding: 10px 15px; border: 1px solid var(--orange-deep); border-radius: 999px; color: var(--ink); font-size: .9rem; font-weight: 800; text-decoration: none; transition: color .18s ease, background .18s ease, transform .18s ease; }
+    .market-store-link:hover { transform: translateY(-1px); background: var(--orange); color: var(--ink); }
+    .market-store-link:focus-visible { outline: 3px solid var(--orange-deep); outline-offset: 3px; }
 
     .exhibitions { background: var(--paper-light); border-block: 2px solid var(--ink); }
     .ex-head { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 46px; }
@@ -246,6 +250,8 @@
       .about-art { width: 100vw; max-width: none; margin-left: calc((100% - 100vw) / 2); }
       .what-row { grid-template-columns: 1fr; gap: 8px; padding-block: 18px 22px; }
       .market-pair { grid-template-columns: 1fr; gap: 22px; }
+      .market-online { grid-column: 1; }
+      .market-store-link { width: 100%; max-width: 320px; }
       .market-stamp { right: -18px; width: 92px; }
       .project-rail { grid-template-columns: 1fr; gap: 28px; }
       .project-pair { grid-column: auto; grid-template-columns: 1fr; grid-template-rows: none; row-gap: 28px; }
@@ -349,6 +355,7 @@
           <div class="market-pair">
             <article><h3>Merchandise</h3><p>Collectible merchandise designed for our audience and their personal collections.</p></article>
             <article><h3>Art Market</h3><p>Has been invited to participate in various events sponsored by private sectors, art communities, and government programs</p></article>
+            <article class="market-online"><h3>Online Store</h3><p>Get Mora &amp; Olfi merchandise anytime through our official online store</p><!-- /* TODO: confirm Shopee URL */ --><a class="market-store-link" href="https://shopee.co.id/moraolfi.store" target="_blank" rel="noopener noreferrer">Visit our Shopee store <i data-lucide="external-link" aria-hidden="true"></i></a></article>
           </div>
         </div>
       </div>
