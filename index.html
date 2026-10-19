@@ -118,7 +118,7 @@
     .carousel-track::-webkit-scrollbar { display: none; }
     .carousel-slide { flex: 0 0 100%; scroll-snap-align: start; }
     .carousel-slide img { width: 100%; aspect-ratio: 1.2 / 1; object-fit: cover; }
-    .comic-panel[aria-label="Strip comic carousel"] .carousel-track { aspect-ratio: 1 / 1; min-height: 0; }
+    .comic-panel[aria-label="Strip comic carousel"] .carousel-track { aspect-ratio: 1 / 1; min-height: 0; max-height: min(100vw, 680px); overflow-y: hidden; }
     .comic-panel[aria-label="Strip comic carousel"] .carousel-slide { background: var(--paper-light); }
     .comic-panel[aria-label="Strip comic carousel"] .carousel-slide img { aspect-ratio: 1 / 1; object-fit: contain; }
     .comic-panel:nth-child(2) { margin-top: 80px; }
