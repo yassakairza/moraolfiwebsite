@@ -76,9 +76,8 @@
     .nav-cta:hover, .button:hover { transform: translate(-2px,-2px) rotate(-1deg); box-shadow: 3px 4px 0 var(--ink); background: #ff8c3c; }
     .menu-toggle { display: none; width: 44px; height: 44px; border: 2px solid var(--ink); border-radius: 50%; background: var(--paper-light); color: var(--ink); }
 
-    .hero { position: relative; isolation: isolate; padding: clamp(45px, 8vw, 100px) 0 70px; overflow: hidden; background: var(--paper); }
-    .hero::before { content: ""; position: absolute; inset: 0; z-index: -2; /* TODO: replace with final Mora & Olfi hero art */ background: url("https://placehold.co/900x1100/F47721/1A1A1A?text=%5BMora+%26+Olfi+character+art%5D") 72% center / cover no-repeat; }
-    .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(90deg, rgba(243,238,229,.97) 0%, rgba(243,238,229,.88) 34%, rgba(243,238,229,.48) 62%, rgba(243,238,229,.32) 100%); }
+    .hero { position: relative; isolation: isolate; padding: clamp(45px, 8vw, 100px) 0 70px; overflow: hidden; background-color: var(--paper); background-image: radial-gradient(ellipse 38% 58% at 79% 45%, rgba(255,204,150,.3), transparent 100%), linear-gradient(90deg, var(--paper) 0%, var(--paper) 50%, #f0c29d 67%, var(--orange) 86%, var(--orange) 100%); }
+    .hero-art-slot { position: absolute; z-index: 0; right: 0; bottom: 0; width: 54%; height: 100%; object-fit: contain; object-position: right bottom; pointer-events: none; }
     .hero-grid { display: grid; grid-template-columns: 1fr; align-items: center; min-height: 500px; }
     .hero-copy { position: relative; z-index: 1; }
     .hero-kicker { margin: 0 0 11px; font-weight: 800; font-size: .9rem; letter-spacing: .12em; text-transform: uppercase; }
@@ -235,8 +234,7 @@
       .hero-grid, .about-grid, .what, .market, .ex-feature, .collab-head { grid-template-columns: 1fr; }
       .hero-grid { min-height: 0; }
       .hero-grid::after { content: ""; min-height: min(105vw, 560px); margin-top: 10px; }
-      .hero::before { background-position: 68% center; }
-      .hero::after { background: linear-gradient(90deg, rgba(243,238,229,.96) 0%, rgba(243,238,229,.86) 50%, rgba(243,238,229,.48) 100%); }
+      .hero { background-image: radial-gradient(ellipse 42% 48% at 80% 68%, rgba(255,204,150,.28), transparent 100%), linear-gradient(90deg, var(--paper) 0%, var(--paper) 56%, #f0c29d 72%, var(--orange) 91%, var(--orange) 100%); }
       .about-grid { grid-template-columns: 1fr; grid-template-rows: auto; gap: 25px; }
       .about-kicker, .about-grid > .section-title, .about-content { grid-column: 1; grid-row: auto; }
       .about-copy-layout { grid-template-columns: minmax(0, 1.2fr) minmax(160px, .8fr); }
@@ -266,7 +264,7 @@
       .hero { padding-top: 44px; }
       h1 { font-size: clamp(4.2rem, 21vw, 6.4rem); }
       .hero-grid::after { min-height: 105vw; }
-      .hero::before { background-position: 62% center; }
+      .hero { background-image: radial-gradient(ellipse 48% 38% at 82% 76%, rgba(255,204,150,.26), transparent 100%), linear-gradient(90deg, var(--paper) 0%, var(--paper) 70%, #f0c29d 83%, var(--orange) 97%, var(--orange) 100%); }
       .about-copy-layout { grid-template-columns: 1fr; align-items: start; }
       .about-art { width: 100vw; max-width: none; margin-left: calc((100% - 100vw) / 2); }
       .what-sticker { width: 132px; }
@@ -313,6 +311,8 @@
 
   <main id="home">
     <section class="hero" aria-labelledby="hero-title">
+      <!-- /* TODO: add final Mora & Olfi hero art (transparent PNG) */ -->
+      <div class="hero-art-slot" aria-hidden="true"></div>
       <div class="hero-grid wrap">
         <div class="hero-copy">
           <h1 id="hero-title" class="display">Mora <span class="amp">&amp;</span><br>Olfi</h1>
