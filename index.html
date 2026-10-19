@@ -216,7 +216,73 @@
       .partner-group { display: contents; }
       .partner-group[aria-hidden="true"] { display: none; }
     }
-    .contact { padding-block: clamp(72px, 10vw, 120px) 45px; background: var(--ink); color: var(--paper-light); }
+    .contact { position: relative; isolation: isolate; padding-block: clamp(72px, 10vw, 120px) 45px; background: var(--ink); color: var(--paper-light); }
+    .contact > .wrap { position: relative; z-index: 1; }
+    .contact-starfield { position: absolute; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; background-repeat: no-repeat; background-image:
+      radial-gradient(circle at 4% 6%, rgba(251,248,241,.55) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 12% 12%, rgba(251,248,241,.24) 0 1.4px, transparent 1.9px),
+      radial-gradient(circle at 20% 5%, rgba(251,248,241,.38) 0 .7px, transparent 1.2px),
+      radial-gradient(circle at 29% 10%, rgba(251,248,241,.2) 0 1.2px, transparent 1.7px),
+      radial-gradient(circle at 39% 5%, rgba(251,248,241,.43) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 49% 13%, rgba(251,248,241,.28) 0 1.4px, transparent 1.9px),
+      radial-gradient(circle at 60% 6%, rgba(251,248,241,.58) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 70% 12%, rgba(251,248,241,.22) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 81% 5%, rgba(251,248,241,.4) 0 1.3px, transparent 1.8px),
+      radial-gradient(circle at 91% 11%, rgba(251,248,241,.3) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 97% 6%, rgba(251,248,241,.64) 0 1.4px, transparent 1.9px),
+      radial-gradient(circle at 7% 21%, rgba(251,248,241,.22) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 17% 25%, rgba(251,248,241,.18) 0 1.2px, transparent 1.7px),
+      radial-gradient(circle at 27% 20%, rgba(251,248,241,.2) 0 .7px, transparent 1.2px),
+      radial-gradient(circle at 37% 27%, rgba(251,248,241,.3) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 47% 22%, rgba(251,248,241,.46) 0 1.4px, transparent 1.9px),
+      radial-gradient(circle at 57% 28%, rgba(251,248,241,.24) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 67% 20%, rgba(251,248,241,.2) 0 1.2px, transparent 1.7px),
+      radial-gradient(circle at 77% 26%, rgba(251,248,241,.38) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 87% 21%, rgba(251,248,241,.2) 0 1.2px, transparent 1.7px),
+      radial-gradient(circle at 95% 28%, rgba(251,248,241,.45) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 3% 36%, rgba(251,248,241,.34) 0 1.4px, transparent 1.9px),
+      radial-gradient(circle at 13% 42%, rgba(251,248,241,.18) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 23% 35%, rgba(251,248,241,.22) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 33% 43%, rgba(251,248,241,.18) 0 1.2px, transparent 1.7px),
+      radial-gradient(circle at 43% 37%, rgba(251,248,241,.28) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 53% 44%, rgba(251,248,241,.48) 0 1.2px, transparent 1.7px),
+      radial-gradient(circle at 63% 36%, rgba(251,248,241,.26) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 73% 43%, rgba(251,248,241,.18) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 83% 36%, rgba(251,248,241,.3) 0 1.4px, transparent 1.9px),
+      radial-gradient(circle at 93% 42%, rgba(251,248,241,.22) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 8% 51%, rgba(251,248,241,.24) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 18% 58%, rgba(251,248,241,.17) 0 1.3px, transparent 1.8px),
+      radial-gradient(circle at 28% 52%, rgba(251,248,241,.2) 0 .7px, transparent 1.2px),
+      radial-gradient(circle at 38% 60%, rgba(251,248,241,.18) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 48% 53%, rgba(251,248,241,.34) 0 1.5px, transparent 2px),
+      radial-gradient(circle at 58% 61%, rgba(251,248,241,.23) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 68% 52%, rgba(251,248,241,.17) 0 1.2px, transparent 1.7px),
+      radial-gradient(circle at 78% 60%, rgba(251,248,241,.22) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 88% 53%, rgba(251,248,241,.28) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 98% 59%, rgba(251,248,241,.46) 0 1.4px, transparent 1.9px),
+      radial-gradient(circle at 4% 69%, rgba(251,248,241,.39) 0 1.1px, transparent 1.6px),
+      radial-gradient(circle at 14% 75%, rgba(251,248,241,.2) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 24% 68%, rgba(251,248,241,.16) 0 1.3px, transparent 1.8px),
+      radial-gradient(circle at 34% 77%, rgba(251,248,241,.18) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 44% 70%, rgba(251,248,241,.24) 0 1.2px, transparent 1.7px),
+      radial-gradient(circle at 54% 78%, rgba(251,248,241,.18) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 64% 69%, rgba(251,248,241,.21) 0 1.4px, transparent 1.9px),
+      radial-gradient(circle at 74% 77%, rgba(251,248,241,.16) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 84% 70%, rgba(251,248,241,.2) 0 1.2px, transparent 1.7px),
+      radial-gradient(circle at 94% 76%, rgba(251,248,241,.35) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 9% 87%, rgba(251,248,241,.44) 0 1.4px, transparent 1.9px),
+      radial-gradient(circle at 19% 94%, rgba(251,248,241,.22) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 31% 86%, rgba(251,248,241,.18) 0 1px, transparent 1.5px),
+      radial-gradient(circle at 42% 94%, rgba(251,248,241,.28) 0 1.3px, transparent 1.8px),
+      radial-gradient(circle at 55% 87%, rgba(251,248,241,.19) 0 .8px, transparent 1.3px),
+      radial-gradient(circle at 69% 94%, rgba(251,248,241,.32) 0 1.1px, transparent 1.6px),
+      radial-gradient(circle at 82% 86%, rgba(251,248,241,.2) 0 1.4px, transparent 1.9px),
+      radial-gradient(circle at 93% 94%, rgba(251,248,241,.5) 0 .8px, transparent 1.3px); }
+    .contact-sparkle { position: absolute; width: 14px; height: 14px; background: rgba(251,248,241,.62); clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); }
+    .contact-sparkle:nth-child(1) { top: 8%; left: 7%; width: 12px; height: 12px; }
+    .contact-sparkle:nth-child(2) { top: 12%; left: 92%; width: 15px; height: 15px; opacity: .72; }
+    .contact-sparkle:nth-child(3) { top: 25%; left: 51%; width: 11px; height: 11px; opacity: .55; }
+    .contact-sparkle:nth-child(4) { top: 48%; left: 77%; width: 13px; height: 13px; opacity: .48; }
     .contact-top { position: relative; isolation: isolate; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 30px; padding-bottom: 48px; border-bottom: 1px solid rgba(251,248,241,.3); }
     .contact-top > div, .contact-top > .button { position: relative; z-index: 1; }
     /* TODO: replace with Mora sticker art (transparent PNG) */
@@ -548,6 +614,7 @@
   </main>
 
   <footer class="contact" id="contact" aria-labelledby="contact-title">
+    <div class="contact-starfield" aria-hidden="true"><span class="contact-sparkle"></span><span class="contact-sparkle"></span><span class="contact-sparkle"></span><span class="contact-sparkle"></span></div>
     <div class="wrap">
       <div class="contact-top reveal"><div><p class="eyebrow">Our Collaboration</p><h2 class="section-title" id="contact-title">Let’s<br>Collaborate!</h2></div><a class="button" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=moraolfiofficial%40gmail.com" target="_blank" rel="noopener noreferrer">Email <i data-lucide="arrow-up-right" aria-hidden="true"></i></a><!-- /* TODO: replace with Mora sticker art (transparent PNG) */ --><img class="contact-sticker" src="contact-sticker.png" alt="" aria-hidden="true"></div>
       <div class="contact-grid">
