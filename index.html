@@ -112,17 +112,17 @@
     .content-top:hover .content-sticker { transform: rotate(3deg) scale(1.04); }
     .content-top .section-title { max-width: 600px; }
     .content-top p { max-width: 260px; margin: 0; font-weight: 700; }
-    .content-panels { display: grid; grid-template-columns: 1.15fr .85fr; gap: 20px; align-items: start; }
+    .content-panels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(32px, 4vw, 48px); width: min(100%, 840px); margin-inline: auto; align-items: start; }
     .comic-panel { overflow: hidden; border: 3px solid var(--ink); border-radius: var(--curve); background: var(--paper-light); box-shadow: 5px 6px 0 var(--ink); transition: transform .25s ease, box-shadow .25s ease; }
     .carousel-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-inline: contain; }
     .carousel-track::-webkit-scrollbar { display: none; }
     .carousel-slide { flex: 0 0 100%; scroll-snap-align: start; }
     .carousel-slide img { width: 100%; aspect-ratio: 1.2 / 1; object-fit: cover; }
-    .comic-panel[aria-label="Strip comic carousel"] .carousel-track { aspect-ratio: 1 / 1; min-height: 0; max-height: min(100vw, 680px); overflow-y: hidden; align-items: center; }
-    .comic-panel[aria-label="Strip comic carousel"] .carousel-slide { display: flex; align-self: stretch; align-items: center; justify-content: center; background: var(--paper-light); }
-    .comic-panel[aria-label="Strip comic carousel"] .carousel-slide img { width: 100%; height: 100%; aspect-ratio: 1 / 1; object-fit: contain; }
-    .comic-panel[aria-label="Short animation carousel"] .carousel-slide img { aspect-ratio: 9 / 16; object-fit: cover; }
-    .comic-panel:nth-child(2) { width: min(100%, 340px); max-width: 340px; justify-self: end; margin-top: 80px; }
+
+    .content-panels .carousel-slide { background: var(--paper-light); }
+    .content-panels .carousel-slide img { aspect-ratio: 9 / 16; object-fit: cover; }
+
+
     .panel-label { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 70px; padding: 14px 20px; }
     .panel-title { display: grid; gap: 6px; font: 600 1.35rem/1 var(--display); }
     .panel-title small { font: 800 .62rem/1 var(--body); letter-spacing: .12em; }
@@ -250,8 +250,8 @@
       .what-sticker { width: clamp(140px, 18vw, 160px); margin: 20px auto -8px; }
       .what-heading { position: static; }
       .content-top, .ex-head { align-items: start; flex-direction: column; }
-      .content-panels { grid-template-columns: 1fr; }
-      .comic-panel:nth-child(2) { width: min(100%, 300px); max-width: 300px; margin: 80px 0 0 auto; }
+      .content-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; width: 100%; }
+
       .market-visual { width: min(78%, 380px); margin: 0 auto; }
       .ex-feature .visual { min-height: 380px; }
       .project-rail { row-gap: 34px; margin-top: 50px; }
@@ -276,6 +276,7 @@
       .about-art { width: 100vw; max-width: none; margin-left: calc((100% - 100vw) / 2); }
       .what-sticker { width: 132px; }
       .content-sticker { top: -42px; right: 0; width: 110px; }
+      .content-panels { grid-template-columns: 1fr; gap: 40px; }
       .what-row { grid-template-columns: 1fr; gap: 8px; padding-block: 18px 22px; }
       .market-pair { grid-template-columns: 1fr; gap: 22px; }
       .market-online { grid-column: 1; }
