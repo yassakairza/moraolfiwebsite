@@ -101,6 +101,8 @@
 
     .what { display: grid; grid-template-columns: .68fr 1.32fr; gap: 56px; align-items: start; }
     .what-heading { position: sticky; top: 110px; }
+    .sticker-filter-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .what-sticker { display: block; width: clamp(180px, 18vw, 240px); height: auto; margin: clamp(26px, 4vw, 46px) 0 -18px 8px; transform: rotate(-7deg); filter: url(#sticker-cutline) drop-shadow(0 5px 5px rgba(26,26,26,.2)); }
     .what-list { border-top: 2px solid var(--ink); }
     .what-row { display: grid; grid-template-columns: minmax(150px,.6fr) 1.4fr; gap: 28px; padding: 23px 0 27px; border-bottom: 1px solid var(--soft-line); }
     .what-row h3 { margin: 0; font: 600 1.45rem/1.1 var(--display); }
@@ -232,6 +234,7 @@
       .about-copy-layout { min-height: 0; }
       .about-art { position: relative; right: auto; bottom: auto; width: min(100%, 240px); max-width: 40%; }
       .what { gap: 28px; }
+      .what-sticker { width: clamp(140px, 18vw, 160px); margin: 20px auto -8px; }
       .what-heading { position: static; }
       .content-top, .ex-head { align-items: start; flex-direction: column; }
       .content-panels { grid-template-columns: 1fr; }
@@ -257,6 +260,7 @@
       .hero::before { background-position: 62% center; }
       .about-copy-layout { grid-template-columns: 1fr; align-items: start; }
       .about-art { width: 100vw; max-width: none; margin-left: calc((100% - 100vw) / 2); }
+      .what-sticker { width: 132px; }
       .what-row { grid-template-columns: 1fr; gap: 8px; padding-block: 18px 22px; }
       .market-pair { grid-template-columns: 1fr; gap: 22px; }
       .market-online { grid-column: 1; }
@@ -271,6 +275,9 @@
       .opportunity { grid-column: span 1; min-height: 190px; padding: 17px; }
       .contact-grid { grid-template-columns: 1fr; gap: 22px; }
       .footer { flex-direction: column; margin-top: 50px; }
+    }
+    @media (max-width: 390px) {
+      .what-sticker { display: none; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -320,7 +327,19 @@
 
     <section class="section-pad wrap" aria-labelledby="what-title">
       <div class="what">
-        <div class="what-heading"><p class="eyebrow">Mora &amp; Olfi</p><h2 class="section-title" id="what-title">What<br>we do</h2></div>
+        <div class="what-heading">
+          <svg class="sticker-filter-defs" aria-hidden="true" focusable="false">
+            <filter id="sticker-cutline" x="-8%" y="-8%" width="116%" height="116%" primitiveUnits="userSpaceOnUse">
+              <feMorphology in="SourceAlpha" operator="dilate" radius="8" result="expanded-alpha" />
+              <feFlood flood-color="#fff" result="sticker-white" />
+              <feComposite in="sticker-white" in2="expanded-alpha" operator="in" result="sticker-outline" />
+              <feMerge><feMergeNode in="sticker-outline" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+          </svg>
+          <p class="eyebrow">Mora &amp; Olfi</p><h2 class="section-title" id="what-title">What<br>we do</h2>
+          <!-- /* TODO: replace with Mora sticker art */ -->
+          <img class="what-sticker" src="mora-olfi-sticker.png" alt="">
+        </div>
         <div class="what-list">
           <article class="what-row"><h3>Content Making</h3><p>We publish strip comics and short animations twice a week across our social media platforms</p></article>
           <article class="what-row"><h3>Merchandising</h3><p>We produce collectible merchandise for our audience and have been sponsored by multiple art conventions, private sector, and government events</p></article>
