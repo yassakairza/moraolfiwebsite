@@ -73,21 +73,15 @@
     .nav-cta:hover, .button:hover { transform: translate(-2px,-2px) rotate(-1deg); box-shadow: 3px 4px 0 var(--ink); background: #ff8c3c; }
     .menu-toggle { display: none; width: 44px; height: 44px; border: 2px solid var(--ink); border-radius: 50%; background: var(--paper-light); color: var(--ink); }
 
-    .hero { padding: clamp(45px, 8vw, 100px) 0 70px; overflow: hidden; }
-    .hero-grid { display: grid; grid-template-columns: 1.02fr .98fr; align-items: center; gap: clamp(25px, 5vw, 70px); }
+    .hero { position: relative; isolation: isolate; padding: clamp(45px, 8vw, 100px) 0 70px; overflow: hidden; background: var(--paper); }
+    .hero::before { content: ""; position: absolute; inset: 0; z-index: -2; /* TODO: replace with final Mora & Olfi hero art */ background: url("https://placehold.co/900x1100/F47721/1A1A1A?text=%5BMora+%26+Olfi+character+art%5D") 72% center / cover no-repeat; }
+    .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(90deg, rgba(243,238,229,.97) 0%, rgba(243,238,229,.88) 34%, rgba(243,238,229,.48) 62%, rgba(243,238,229,.32) 100%); }
+    .hero-grid { display: grid; grid-template-columns: 1fr; align-items: center; min-height: 500px; }
     .hero-copy { position: relative; z-index: 1; }
     .hero-kicker { margin: 0 0 11px; font-weight: 800; font-size: .9rem; letter-spacing: .12em; text-transform: uppercase; }
     h1 { max-width: 660px; margin: 0; font: 700 clamp(4.5rem, 10.5vw, 9rem)/.79 var(--display); letter-spacing: -.075em; }
     h1 .amp { color: var(--orange); }
     .hero-sub { margin: 26px 0 0; font-weight: 800; font-size: 1.1rem; }
-    .hero-art { position: relative; min-height: 500px; }
-    .hero-frame { position: absolute; inset: 5% 4% 5% 8%; overflow: hidden; border: 3px solid var(--ink); border-radius: 49% 49% 25px 25px; background: var(--orange); transform: rotate(2.5deg); box-shadow: var(--shadow); }
-    .hero-frame img { height: 100%; object-fit: cover; mix-blend-mode: multiply; }
-    .hero-sticker { position: absolute; z-index: 2; right: 0; bottom: 8%; display: grid; place-items: center; width: clamp(105px, 14vw, 155px); aspect-ratio: 1; padding: 15px; border: 3px solid var(--ink); border-radius: 50%; background: var(--paper-light); text-align: center; font: 600 1.1rem/1.05 var(--display); transform: rotate(9deg); box-shadow: 4px 4px 0 var(--ink); }
-    .hero-sticker span { display: block; color: var(--orange-deep); }
-    .hero-ring { position: absolute; z-index: -1; top: 3%; right: 2%; width: 90%; aspect-ratio: 1; border: 1px dashed var(--ink); border-radius: 50%; }
-    .hero-note { position: absolute; top: 12%; left: 0; max-width: 128px; font: 600 1rem/1.05 var(--display); transform: rotate(-8deg); }
-    .hero-note::after { content: ""; display: block; width: 45px; height: 20px; margin: 4px 0 0 25px; border-bottom: 2px solid var(--ink); border-radius: 50%; transform: rotate(-20deg); }
 
     .about { position: relative; padding-block: clamp(65px, 9vw, 112px); background: var(--ink); color: var(--paper-light); }
     .about-grid { display: grid; grid-template-columns: .78fr 1.22fr; gap: clamp(28px, 8vw, 110px); align-items: start; }
@@ -189,9 +183,10 @@
       .nav-links.open { display: flex; }
       .nav-links a { display: block; padding: 12px 0; border-bottom: 1px solid var(--soft-line); font-size: 1rem; }
       .hero-grid, .about-grid, .what, .market, .ex-feature, .collab-head { grid-template-columns: 1fr; }
-      .hero-art { min-height: min(105vw, 560px); margin-top: 10px; }
-      .hero-frame { inset: 5% 8% 4% 8%; }
-      .hero-note { top: 3%; left: 2%; }
+      .hero-grid { min-height: 0; }
+      .hero-grid::after { content: ""; min-height: min(105vw, 560px); margin-top: 10px; }
+      .hero::before { background-position: 68% center; }
+      .hero::after { background: linear-gradient(90deg, rgba(243,238,229,.96) 0%, rgba(243,238,229,.86) 50%, rgba(243,238,229,.48) 100%); }
       .about-grid { gap: 25px; }
       .what { gap: 28px; }
       .what-heading { position: static; }
@@ -209,8 +204,8 @@
       :root { --page: calc(100% - 28px); --curve: 17px; }
       .hero { padding-top: 44px; }
       h1 { font-size: clamp(4.2rem, 21vw, 6.4rem); }
-      .hero-art { min-height: 105vw; }
-      .hero-sticker { right: -2px; bottom: 4%; }
+      .hero-grid::after { min-height: 105vw; }
+      .hero::before { background-position: 62% center; }
       .what-row { grid-template-columns: 1fr; gap: 8px; padding-block: 18px 22px; }
       .market-pair { grid-template-columns: 1fr; gap: 22px; }
       .market-stamp { right: -18px; width: 92px; }
@@ -254,12 +249,6 @@
           <p class="hero-kicker">Intellectual Property · Brand Profile</p>
           <h1 id="hero-title" class="display">Mora <span class="amp">&amp;</span><br>Olfi</h1>
           <p class="hero-sub">A slice-of-life comedy</p>
-        </div>
-        <div class="hero-art" aria-label="Character artwork placeholder">
-          <div class="hero-ring" aria-hidden="true"></div>
-          <p class="hero-note">Mora &amp; Olfi<br>character artwork</p>
-          <div class="hero-frame tilt"><img src="https://placehold.co/900x1100/F47721/1A1A1A?text=%5BMora+%26+Olfi+character+art%5D" alt="[Mora and Olfi character artwork placeholder]"></div>
-          <div class="hero-sticker" aria-hidden="true">Mora <span>&amp;</span> Olfi</div>
         </div>
       </div>
     </section>
@@ -376,9 +365,9 @@
 
   <footer class="contact" id="contact" aria-labelledby="contact-title">
     <div class="wrap">
-      <div class="contact-top reveal"><div><p class="eyebrow">Our Collaboration</p><h2 class="section-title" id="contact-title">Let’s<br>Collaborate!</h2></div><a class="button" href="mailto:moraolfiofficial@gmail.com">Email <i data-lucide="arrow-up-right" aria-hidden="true"></i></a></div>
+      <div class="contact-top reveal"><div><p class="eyebrow">Our Collaboration</p><h2 class="section-title" id="contact-title">Let’s<br>Collaborate!</h2></div><a class="button" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=moraolfiofficial%40gmail.com" target="_blank" rel="noopener noreferrer">Email <i data-lucide="arrow-up-right" aria-hidden="true"></i></a></div>
       <div class="contact-grid">
-        <div class="contact-item"><h3>Email</h3><a href="mailto:moraolfiofficial@gmail.com"><i data-lucide="mail" aria-hidden="true"></i>moraolfiofficial@gmail.com</a></div>
+        <div class="contact-item"><h3>Email</h3><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=moraolfiofficial%40gmail.com" target="_blank" rel="noopener noreferrer"><i data-lucide="mail" aria-hidden="true"></i>moraolfiofficial@gmail.com</a></div>
         <div class="contact-item"><h3>Social media</h3><p><a href="https://www.instagram.com/moraolfi/" target="_blank" rel="noopener noreferrer">@moraolfi</a> &amp; <a href="https://www.instagram.com/moraolfi.studio/" target="_blank" rel="noopener noreferrer">@moraolfi.studio</a></p></div>
         <div class="contact-item"><h3>Phone</h3><a href="https://wa.me/6282277647398" target="_blank" rel="noopener noreferrer"><i data-lucide="phone" aria-hidden="true"></i>+62 822-7764-7398</a></div>
       </div>
