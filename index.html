@@ -124,7 +124,7 @@
     .content-panels > .comic-panel[aria-label="Strip comic carousel"] .carousel-track { aspect-ratio: 1 / 1; height: auto; min-height: 0; overflow-y: hidden; }
     .content-panels > .comic-panel[aria-label="Strip comic carousel"] .carousel-slide { height: 100%; }
     .content-panels > .comic-panel[aria-label="Strip comic carousel"] .carousel-slide img { width: 100%; height: 100%; aspect-ratio: 1 / 1; object-fit: contain; }
-    .content-panels > .comic-panel[aria-label="Short animation carousel"] .carousel-slide img { aspect-ratio: 9 / 16; object-fit: cover; }
+    .content-panels > .comic-panel[aria-label="Short animation carousel"] .carousel-slide video { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; background: var(--paper-light); }
 
 
     .panel-label { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 70px; padding: 14px 20px; }
@@ -383,12 +383,12 @@
             </div>
             <div class="panel-label"><span class="panel-title">STRIP COMIC <small>CONTENT MAKING</small></span><div class="carousel-controls"><button type="button" data-direction="prev" aria-label="Previous strip comic image"><i data-lucide="chevron-left" aria-hidden="true"></i></button><span class="carousel-count" aria-live="polite">01 / 03</span><button type="button" data-direction="next" aria-label="Next strip comic image"><i data-lucide="chevron-right" aria-hidden="true"></i></button></div></div>
           </article>
-          <!-- Replace the short-animation placeholder sources with .gif file paths to show animated clips. -->
+          <!-- TODO: compress videos, target <2-3MB each, H.264 MP4 -->
           <article class="comic-panel reveal" aria-label="Short animation carousel">
-            <div class="carousel-track" tabindex="0" aria-label="Short animation images">
-              <div class="carousel-slide"><img src="https://placehold.co/720x1280/FBF8F1/1A1A1A?text=%5BShort+animation+still+1%5D" alt="[Short animation still 1 placeholder]"></div>
-              <div class="carousel-slide"><img src="https://placehold.co/720x1280/FBF8F1/1A1A1A?text=%5BShort+animation+still+2%5D" alt="[Short animation still 2 placeholder]"></div>
-              <div class="carousel-slide"><img src="https://placehold.co/720x1280/FBF8F1/1A1A1A?text=%5BShort+animation+still+3%5D" alt="[Short animation still 3 placeholder]"></div>
+            <div class="carousel-track" tabindex="0" aria-label="Short animation videos">
+              <div class="carousel-slide"><video src="animation-1.mp4" poster="animation-1-poster.jpg" muted playsinline loop preload="metadata" aria-label="Short animation 1"></video></div>
+              <div class="carousel-slide"><video src="animation-2.mp4" poster="animation-2-poster.jpg" muted playsinline loop preload="metadata" aria-label="Short animation 2"></video></div>
+              <div class="carousel-slide"><video src="animation-3.mp4" poster="animation-3-poster.jpg" muted playsinline loop preload="metadata" aria-label="Short animation 3"></video></div>
             </div>
             <div class="panel-label"><span class="panel-title">SHORT ANIMATION <small>CONTENT MAKING</small></span><div class="carousel-controls"><button type="button" data-direction="prev" aria-label="Previous short animation image"><i data-lucide="chevron-left" aria-hidden="true"></i></button><span class="carousel-count" aria-live="polite">01 / 03</span><button type="button" data-direction="next" aria-label="Next short animation image"><i data-lucide="chevron-right" aria-hidden="true"></i></button></div></div>
           </article>
@@ -611,9 +611,24 @@
       const track = panel.querySelector('.carousel-track');
       const slides = [...track.querySelectorAll('.carousel-slide')];
       const counter = panel.querySelector('.carousel-count');
+      const videoSlides = panel.getAttribute('aria-label') === 'Short animation carousel'
+        ? slides.map(slide => slide.querySelector('video')).filter(Boolean)
+        : [];
+      let videoCarouselHovered = false;
+      const syncActiveVideo = (index = Math.round(track.scrollLeft / track.clientWidth)) => {
+        if (!videoSlides.length) return;
+        videoSlides.forEach((video, videoIndex) => {
+          if (videoIndex !== index || videoCarouselHovered || document.visibilityState !== 'visible') {
+            video.pause();
+          } else if (video.paused) {
+            video.play().catch(() => {});
+          }
+        });
+      };
       const updateCounter = () => {
         const index = Math.round(track.scrollLeft / track.clientWidth);
         counter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+        syncActiveVideo(index);
       };
       panel.querySelectorAll('.carousel-controls button').forEach(button => {
         button.addEventListener('click', () => {
@@ -624,6 +639,18 @@
         });
       });
       track.addEventListener('scroll', updateCounter, { passive: true });
+      if (videoSlides.length) {
+        panel.addEventListener('mouseenter', () => {
+          videoCarouselHovered = true;
+          videoSlides.forEach(video => video.pause());
+        });
+        panel.addEventListener('mouseleave', () => {
+          videoCarouselHovered = false;
+          syncActiveVideo();
+        });
+        document.addEventListener('visibilitychange', () => syncActiveVideo());
+        syncActiveVideo();
+      }
       track.addEventListener('keydown', event => {
         if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
         event.preventDefault();
