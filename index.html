@@ -269,6 +269,8 @@
     .partners-marquee:hover .partners-track { animation-play-state: paused; }
     .partner-group { display: flex; flex: none; align-items: center; gap: var(--partner-gap, clamp(40px, 5vw, 64px)); padding-inline: calc(var(--partner-gap, clamp(40px, 5vw, 64px)) / 2); }
     .partner-logo { display: grid; flex: 0 0 clamp(120px, 12vw, 152px); place-items: center; height: clamp(48px, 5vw, 64px); border: 1px solid #d9d5ce; background: #eeece7; color: #77736c; font: 700 .9rem/1 var(--body); }
+    .partner-logo img { width: auto; max-width: calc(100% - 12px); max-height: calc(100% - 12px); object-fit: contain; }
+    .partner-logo--dark { background: var(--ink); }
     @keyframes partners-scroll { to { transform: translateX(-50%); } }
     @media (max-width: 520px) {
       .partners-track { animation-duration: 34s; }
@@ -662,48 +664,32 @@
       <div class="partners-marquee">
         <div class="partners-track">
           <div class="partner-group">
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 1 logo placeholder">Partner 1</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 2 logo placeholder">Partner 2</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 3 logo placeholder">Partner 3</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 4 logo placeholder">Partner 4</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 5 logo placeholder">Partner 5</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 6 logo placeholder">Partner 6</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 7 logo placeholder">Partner 7</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 8 logo placeholder">Partner 8</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 9 logo placeholder">Partner 9</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 10 logo placeholder">Partner 10</div>
+            <div class="partner-logo"><img src="partner-ekraf.png" alt="EKRAF — Kementerian Ekonomi Kreatif Republik Indonesia" width="389" height="166"></div>
+            <div class="partner-logo"><img src="partner-kai.png" alt="Kereta Api Indonesia (KAI)" width="218" height="92"></div>
+            <div class="partner-logo partner-logo--dark"><img src="partner-artlinx.png" alt="Artlinx — Toko Alat Tulis &amp; Seni" width="310" height="163"></div>
+            <div class="partner-logo"><img src="partner-photobomb.png" alt="Photo Bomb" width="254" height="137"></div>
+            <div class="partner-logo"><img src="partner-hora.png" alt="HORA" width="225" height="114"></div>
+            <div class="partner-logo"><img src="partner-we-omo.png" alt="WE LOVE OMO!" width="201" height="201"></div>
+            <div class="partner-logo"><img src="partner-cupkets.png" alt="Cupkets 3.0" width="255" height="255"></div>
+            <div class="partner-logo"><img src="partner-mini.png" alt="Mini cat logo" width="274" height="274"></div>
+            <div class="partner-logo"><img src="partner-art-party.png" alt="Art Party" width="350" height="350"></div>
+            <div class="partner-logo"><img src="partner-tomo-land.png" alt="Tomo Land Volume 7" width="218" height="218"></div>
+            <div class="partner-logo"><img src="partner-fki-2025.png" alt="FKI 2025 — Festival Kekayaan Intelektual" width="585" height="293"></div>
+            <div class="partner-logo"><img src="partner-pop-art-jakarta.png" alt="POP ART Jakarta 2022" width="228" height="265"></div>
           </div>
           <div class="partner-group" aria-hidden="true">
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 1 logo placeholder">Partner 1</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 2 logo placeholder">Partner 2</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 3 logo placeholder">Partner 3</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 4 logo placeholder">Partner 4</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 5 logo placeholder">Partner 5</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 6 logo placeholder">Partner 6</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 7 logo placeholder">Partner 7</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 8 logo placeholder">Partner 8</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 9 logo placeholder">Partner 9</div>
-            <!-- TODO: replace with partner logo -->
-            <div class="partner-logo" role="img" aria-label="Partner 10 logo placeholder">Partner 10</div>
+            <div class="partner-logo"><img src="partner-ekraf.png" alt="" width="389" height="166"></div>
+            <div class="partner-logo"><img src="partner-kai.png" alt="" width="218" height="92"></div>
+            <div class="partner-logo partner-logo--dark"><img src="partner-artlinx.png" alt="" width="310" height="163"></div>
+            <div class="partner-logo"><img src="partner-photobomb.png" alt="" width="254" height="137"></div>
+            <div class="partner-logo"><img src="partner-hora.png" alt="" width="225" height="114"></div>
+            <div class="partner-logo"><img src="partner-we-omo.png" alt="" width="201" height="201"></div>
+            <div class="partner-logo"><img src="partner-cupkets.png" alt="" width="255" height="255"></div>
+            <div class="partner-logo"><img src="partner-mini.png" alt="" width="274" height="274"></div>
+            <div class="partner-logo"><img src="partner-art-party.png" alt="" width="350" height="350"></div>
+            <div class="partner-logo"><img src="partner-tomo-land.png" alt="" width="218" height="218"></div>
+            <div class="partner-logo"><img src="partner-fki-2025.png" alt="" width="585" height="293"></div>
+            <div class="partner-logo"><img src="partner-pop-art-jakarta.png" alt="" width="228" height="265"></div>
           </div>
         </div>
       </div>
