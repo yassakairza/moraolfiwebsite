@@ -192,6 +192,13 @@
     .project-art { overflow: hidden; margin-bottom: 18px; border: 2px solid var(--ink); border-radius: 18px; background: var(--paper); transition: transform .22s ease; }
     .project-art:hover { transform: rotate(1.5deg) scale(1.025); }
     .project-art img { aspect-ratio: 16/10; object-fit: cover; }
+    .project-art.popart-carousel { position: relative; aspect-ratio: 16/10; }
+    /* Adjust --popart-focus on any slide if its subject needs a different crop. */
+    .project-art.popart-carousel .popart-slide { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; object-position: var(--popart-focus, center); opacity: 0; animation: popart-crossfade 15s infinite; }
+    .project-art.popart-carousel .popart-slide:nth-child(2) { animation-delay: -5s; }
+    .project-art.popart-carousel .popart-slide:nth-child(3) { animation-delay: -10s; }
+    @keyframes popart-crossfade { 0%, 30% { opacity: 1; } 33.33%, 96.67% { opacity: 0; } 100% { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { .project-art.popart-carousel .popart-slide { animation: none; opacity: 0; } .project-art.popart-carousel .popart-slide:first-child { opacity: 1; } }
     .project h3 { margin: 0 0 6px; font: 600 clamp(1.35rem, 2vw, 1.8rem)/1.08 var(--display); }
     .project p { margin: 0; font-size: 1rem; }
     .project .date { margin-bottom: 12px; font-size: .88rem; font-weight: 800; }
@@ -546,7 +553,11 @@
         <div class="project-rail">
           <div class="project-pair">
             <article class="project reveal">
-              <div class="project-art"><img src="https://placehold.co/700x520/FBF8F1/1A1A1A?text=%5BPOP+ART+Jakarta+resin+statue%5D" alt="[Mora and Olfi resin statue at POP ART Jakarta placeholder]"></div>
+              <div class="project-art popart-carousel" role="region" aria-roledescription="carousel" aria-label="POP ART Jakarta photos">
+                <img class="popart-slide" src="popart-1.jpg" alt="Mora &amp; Olfi resin statue with a mushroom accessory at POP ART Jakarta, Monas, 2023" width="1238" height="2200" style="--popart-focus: 50% 42%">
+                <img class="popart-slide" src="popart-2.jpg" alt="Full Mora &amp; Olfi resin statue at POP ART Jakarta, Monas, 2023" width="1238" height="2200" style="--popart-focus: center" loading="lazy" decoding="async">
+                <img class="popart-slide" src="popart-3.jpg" alt="Visitor beside the Mora &amp; Olfi resin statue at POP ART Jakarta, Monas, 2023" width="2200" height="1238" style="--popart-focus: center" loading="lazy" decoding="async">
+              </div>
               <h3>POP ART JAKARTA</h3><p class="date">Monas, 2023</p>
               <div class="project-divider" aria-hidden="true"></div>
               <div class="fki-grid">
