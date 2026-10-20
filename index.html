@@ -157,7 +157,18 @@
     .market-store-link:hover { transform: translateY(-1px); background: var(--orange); color: var(--ink); }
     .market-store-link:focus-visible { outline: 3px solid var(--orange-deep); outline-offset: 3px; }
 
-    .exhibitions { background: var(--paper-light); border-block: 2px solid var(--ink); }
+    .exhibitions { position: relative; isolation: isolate; overflow: hidden; background: var(--paper-light); border-block: 2px solid var(--ink); }
+    .exhibitions > .wrap { position: relative; z-index: 1; }
+    /* TODO: replace with exhibition decor image */
+    .exhibition-backdrop { position: absolute; z-index: 0; inset: 0 0 auto; height: clamp(460px, 42vw, 620px); overflow: hidden; opacity: .28; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 72%); mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 72%); }
+    .exhibition-bg-slide { position: absolute; inset: 0; background-position: top center; background-size: cover; opacity: 0; animation: exhibition-crossfade 12s infinite; }
+    .exhibition-bg-slide:nth-child(2) { animation-delay: -3s; }
+    .exhibition-bg-slide:nth-child(3) { animation-delay: -6s; }
+    .exhibition-bg-slide:nth-child(4) { animation-delay: -9s; }
+    @keyframes exhibition-crossfade { 0%, 20% { opacity: 1; } 25%, 95% { opacity: 0; } 100% { opacity: 1; } }
+    @media (max-width: 820px) { .exhibition-backdrop { height: clamp(360px, 58vw, 470px); } }
+    @media (max-width: 520px) { .exhibition-backdrop { height: 360px; -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 38%, transparent 78%); mask-image: linear-gradient(to bottom, #000 0%, #000 38%, transparent 78%); } }
+    @media (prefers-reduced-motion: reduce) { .exhibition-bg-slide { animation: none; opacity: 0; } .exhibition-bg-slide:first-child { opacity: 1; } }
     .ex-head { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 46px; }
     .ex-head > p { max-width: 340px; margin: 0; font-weight: 700; }
     .ex-feature { display: grid; grid-template-columns: 1.15fr .85fr; align-items: stretch; gap: 24px; }
@@ -503,6 +514,12 @@
     </section>
 
     <section class="exhibitions section-pad" id="exhibitions" aria-labelledby="ex-title">
+      <div class="exhibition-backdrop" aria-hidden="true">
+        <div class="exhibition-bg-slide" style="background-image: url('exhibition-1.jpg')"></div>
+        <div class="exhibition-bg-slide" style="background-image: url('exhibition-2.jpg')"></div>
+        <div class="exhibition-bg-slide" style="background-image: url('exhibition-3.jpg')"></div>
+        <div class="exhibition-bg-slide" style="background-image: url('exhibition-4.jpg')"></div>
+      </div>
       <div class="wrap">
         <div class="ex-head reveal"><div><p class="eyebrow">Exhibition and Art Installation</p><h2 class="section-title" id="ex-title">Out in the<br>real world</h2></div></div>
         <article class="ex-feature reveal">
