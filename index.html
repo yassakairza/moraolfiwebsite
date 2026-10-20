@@ -173,8 +173,16 @@
     .ex-head { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 46px; }
     .ex-head > p { max-width: 340px; margin: 0; font-weight: 700; }
     .ex-feature { display: grid; grid-template-columns: 1.15fr .85fr; align-items: stretch; gap: 24px; }
-    .ex-feature .visual { min-height: 410px; overflow: hidden; border: 3px solid var(--ink); border-radius: 48% 48% 22px 22px; background: var(--orange); box-shadow: var(--shadow); }
+    .ex-feature .visual { position: relative; min-height: 410px; overflow: hidden; border: 3px solid var(--ink); border-radius: 48% 48% 22px 22px; background: var(--orange); box-shadow: var(--shadow); }
     .ex-feature .visual img { height: 100%; object-fit: cover; }
+    .jakarnaval-slide { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; animation: jakarnaval-crossfade 18s infinite; }
+    .jakarnaval-slide:nth-child(2) { animation-delay: -3s; }
+    .jakarnaval-slide:nth-child(3) { animation-delay: -6s; }
+    .jakarnaval-slide:nth-child(4) { animation-delay: -9s; }
+    .jakarnaval-slide:nth-child(5) { animation-delay: -12s; }
+    .jakarnaval-slide:nth-child(6) { animation-delay: -15s; }
+    @keyframes jakarnaval-crossfade { 0%, 13.33% { opacity: 1; } 16.67%, 96.67% { opacity: 0; } 100% { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { .jakarnaval-slide { animation: none; opacity: 0; } .jakarnaval-slide:first-child { opacity: 1; } }
     .ex-copy { display: flex; flex-direction: column; justify-content: center; padding: clamp(8px, 3vw, 38px); }
     .ex-copy h3 { margin: 0; font: 600 clamp(2rem, 4vw, 3.5rem)/.98 var(--display); }
     .ex-copy .place { margin: 10px 0 22px; color: var(--orange-deep); font-weight: 800; }
@@ -524,7 +532,14 @@
       <div class="wrap">
         <div class="ex-head reveal"><div><p class="eyebrow">Exhibition and Art Installation</p><h2 class="section-title" id="ex-title">Out in the<br>real world</h2></div></div>
         <article class="ex-feature reveal">
-          <div class="visual"><img src="https://placehold.co/1000x900/F47721/1A1A1A?text=%5BJakarnaval+parade+installation%5D" alt="[Mora and Olfi at Jakarnaval, parade installation placeholder]"></div>
+          <div class="visual" role="region" aria-roledescription="carousel" aria-label="Jakarnaval parade installation photos">
+            <img class="jakarnaval-slide" src="jakarnaval-05389.jpg" alt="Mora &amp; Olfi motorcade at Jakarnaval, 2025" width="2200" height="1467" fetchpriority="high">
+            <img class="jakarnaval-slide" src="exhibition-2.jpg" alt="Jakarnaval parade participants carrying a Mora &amp; Olfi banner, 2025" width="2200" height="1467" loading="lazy" decoding="async">
+            <img class="jakarnaval-slide" src="exhibition-3.jpg" alt="Visitors beside the Mora &amp; Olfi installation at Jakarnaval, 2025" width="1467" height="2200" loading="lazy" decoding="async">
+            <img class="jakarnaval-slide" src="exhibition-4.jpg" alt="Mora &amp; Olfi character plush at the Jakarnaval installation, 2025" width="1467" height="2200" loading="lazy" decoding="async">
+            <img class="jakarnaval-slide" src="exhibition-1.jpg" alt="Mora &amp; Olfi float and display at Jakarnaval, 2025" width="2200" height="1805" loading="lazy" decoding="async">
+            <img class="jakarnaval-slide" src="jakarnaval-05414.jpg" alt="A visitor posing with the Mora &amp; Olfi installation at Jakarnaval, 2025" width="2200" height="1467" loading="lazy" decoding="async">
+          </div>
           <div class="ex-copy"><p class="eyebrow">Jakarnaval</p><h3>Mora &amp; Olfi di Jakarnaval</h3><p class="place">Pantai Marina Ancol · 2025</p><p>A motorcade featuring Mora &amp; Olfi along with 12 other IPs at Jakarnaval, Marina Beach Ancol 2025</p></div>
         </article>
 
