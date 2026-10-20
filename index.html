@@ -160,8 +160,9 @@
     .exhibitions { position: relative; isolation: isolate; overflow: hidden; background: var(--paper-light); border-block: 2px solid var(--ink); }
     .exhibitions > .wrap { position: relative; z-index: 1; }
     /* TODO: replace with exhibition decor image */
-    .exhibition-backdrop { position: absolute; z-index: 0; inset: 0 0 auto; height: clamp(460px, 42vw, 620px); overflow: hidden; opacity: .28; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 72%); mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 72%); }
-    .exhibition-bg-slide { position: absolute; inset: 0; background-position: top center; background-size: cover; opacity: 0; animation: exhibition-crossfade 12s infinite; }
+    .exhibition-backdrop { position: absolute; z-index: 0; inset: 0 0 auto; height: clamp(460px, 42vw, 620px); overflow: hidden; opacity: .82; pointer-events: none; -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 72%); mask-image: linear-gradient(to bottom, #000 0%, #000 40%, transparent 72%); }
+    .exhibition-backdrop::after { content: ""; position: absolute; z-index: 1; inset: 0; background: linear-gradient(to bottom, rgba(26,26,26,.58) 0%, rgba(26,26,26,.32) 32%, rgba(26,26,26,0) 76%); pointer-events: none; }
+    .exhibition-bg-slide { position: absolute; z-index: 0; inset: 0; background-position: top center; background-size: cover; opacity: 0; animation: exhibition-crossfade 12s infinite; }
     .exhibition-bg-slide:nth-child(2) { animation-delay: -3s; }
     .exhibition-bg-slide:nth-child(3) { animation-delay: -6s; }
     .exhibition-bg-slide:nth-child(4) { animation-delay: -9s; }
