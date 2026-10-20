@@ -124,7 +124,17 @@
     .content-panels > .comic-panel[aria-label="Strip comic carousel"] .carousel-track { aspect-ratio: 1 / 1; height: auto; min-height: 0; overflow-y: hidden; }
     .content-panels > .comic-panel[aria-label="Strip comic carousel"] .carousel-slide { height: 100%; }
     .content-panels > .comic-panel[aria-label="Strip comic carousel"] .carousel-slide img { width: 100%; height: 100%; aspect-ratio: 1 / 1; object-fit: contain; }
-    .content-panels > .comic-panel[aria-label="Short animation carousel"] .carousel-slide video { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; background: var(--paper-light); }
+    .content-panels > .comic-panel[aria-label="Short animation carousel"] .carousel-track { position: relative; aspect-ratio: 9 / 16; overflow: hidden; touch-action: pan-y; }
+    .content-panels > .comic-panel[aria-label="Short animation carousel"] .carousel-slide { position: absolute; inset: 0; flex: none; opacity: 0; pointer-events: none; transition: opacity .5s ease; }
+    .content-panels > .comic-panel[aria-label="Short animation carousel"] .carousel-slide.is-active { z-index: 1; opacity: 1; pointer-events: auto; }
+    .content-panels > .comic-panel[aria-label="Short animation carousel"] .carousel-slide video { display: block; width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; background: var(--paper-light); }
+    .content-panels > .comic-panel[aria-label="Short animation carousel"] .carousel-slide { overflow: hidden; }
+    .content-panels > .comic-panel[aria-label="Short animation carousel"] video { cursor: pointer; }
+    .content-panels > .comic-panel[aria-label="Short animation carousel"] video:focus-visible { outline: 3px solid var(--orange); outline-offset: -5px; }
+    .video-state-indicator { position: absolute; z-index: 1; inset: 0; display: grid; place-items: center; background: rgba(26,26,26,.12); opacity: 0; pointer-events: none; transition: opacity .22s ease; }
+    .video-state-indicator svg { width: 54px; height: 54px; padding: 17px; border: 1.5px solid rgba(251,248,241,.9); border-radius: 50%; background: rgba(26,26,26,.58); fill: var(--paper-light); }
+    .content-panels > .comic-panel[aria-label="Short animation carousel"] .carousel-slide.is-paused .video-state-indicator { opacity: 1; }
+    @media (prefers-reduced-motion: reduce) { .content-panels > .comic-panel[aria-label="Short animation carousel"] .carousel-slide { transition: none; } }
 
 
     .panel-label { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 70px; padding: 14px 20px; }
@@ -505,10 +515,10 @@
           </article>
           <!-- TODO: compress videos, target <2-3MB each, H.264 MP4 -->
           <article class="comic-panel reveal" aria-label="Short animation carousel">
-            <div class="carousel-track" tabindex="0" aria-label="Short animation videos">
-              <div class="carousel-slide"><video src="animation-1.mp4" poster="animation-1-poster.jpg" muted playsinline loop preload="metadata" aria-label="Short animation 1"></video></div>
-              <div class="carousel-slide"><video src="animation-2.mp4" poster="animation-2-poster.jpg" muted playsinline loop preload="metadata" aria-label="Short animation 2"></video></div>
-              <div class="carousel-slide"><video src="animation-3.mp4" poster="animation-3-poster.jpg" muted playsinline loop preload="metadata" aria-label="Short animation 3"></video></div>
+            <div class="carousel-track" aria-label="Short animation videos">
+              <div class="carousel-slide is-active"><video src="animation-1.mp4" poster="animation-1-poster.jpg" muted playsinline loop preload="metadata" tabindex="0" aria-label="Short animation 1. Click or press Space to play or pause"></video><span class="video-state-indicator" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></span></div>
+              <div class="carousel-slide"><video src="animation-2.mp4" poster="animation-2-poster.jpg" muted playsinline loop preload="metadata" tabindex="0" aria-label="Short animation 2. Click or press Space to play or pause"></video><span class="video-state-indicator" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></span></div>
+              <div class="carousel-slide"><video src="animation-3.mp4" poster="animation-3-poster.jpg" muted playsinline loop preload="metadata" tabindex="0" aria-label="Short animation 3. Click or press Space to play or pause"></video><span class="video-state-indicator" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg></span></div>
             </div>
             <div class="panel-label"><span class="panel-title">SHORT ANIMATION <small>CONTENT MAKING</small></span><div class="carousel-controls"><button type="button" data-direction="prev" aria-label="Previous short animation image"><i data-lucide="chevron-left" aria-hidden="true"></i></button><span class="carousel-count" aria-live="polite">01 / 03</span><button type="button" data-direction="next" aria-label="Next short animation image"><i data-lucide="chevron-right" aria-hidden="true"></i></button></div></div>
           </article>
@@ -762,21 +772,63 @@
       const videoSlides = panel.getAttribute('aria-label') === 'Short animation carousel'
         ? slides.map(slide => slide.querySelector('video')).filter(Boolean)
         : [];
-      let videoCarouselHovered = false;
-      const syncActiveVideo = (index = Math.round(track.scrollLeft / track.clientWidth)) => {
-        if (!videoSlides.length) return;
-        videoSlides.forEach((video, videoIndex) => {
-          if (videoIndex !== index || videoCarouselHovered || document.visibilityState !== 'visible') {
-            video.pause();
-          } else if (video.paused) {
-            video.play().catch(() => {});
-          }
+      if (videoSlides.length) {
+        let activeVideoIndex = 0;
+        let videoPausedByUser = false;
+        const syncActiveVideo = () => {
+          videoSlides.forEach((video, videoIndex) => {
+            video.tabIndex = videoIndex === activeVideoIndex ? 0 : -1;
+            if (videoIndex !== activeVideoIndex || videoPausedByUser || document.visibilityState !== 'visible') {
+              video.pause();
+            } else if (video.paused) {
+              video.play().catch(() => {});
+            }
+          });
+        };
+        const showVideoSlide = index => {
+          activeVideoIndex = (index + slides.length) % slides.length;
+          videoPausedByUser = false;
+          slides.forEach((slide, slideIndex) => slide.classList.toggle('is-active', slideIndex === activeVideoIndex));
+          counter.textContent = `${String(activeVideoIndex + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+          syncActiveVideo();
+        };
+
+        videoSlides.forEach((video, index) => {
+          const slide = slides[index];
+          const updatePausedIndicator = () => slide.classList.toggle('is-paused', video.paused);
+          video.addEventListener('play', updatePausedIndicator);
+          video.addEventListener('pause', updatePausedIndicator);
+          updatePausedIndicator();
+          video.addEventListener('click', () => {
+            if (index !== activeVideoIndex) return;
+            if (video.paused) {
+              videoPausedByUser = false;
+              video.play().catch(() => {});
+            } else {
+              videoPausedByUser = true;
+              video.pause();
+            }
+          });
+          video.addEventListener('keydown', event => {
+            if (event.key !== ' ' && event.key !== 'Enter') return;
+            event.preventDefault();
+            video.click();
+          });
         });
-      };
+        panel.querySelectorAll('.carousel-controls button').forEach(button => {
+          button.addEventListener('click', () => {
+            const direction = button.dataset.direction === 'next' ? 1 : -1;
+            showVideoSlide(activeVideoIndex + direction);
+          });
+        });
+        document.addEventListener('visibilitychange', syncActiveVideo);
+        showVideoSlide(0);
+        return;
+      }
+
       const updateCounter = () => {
         const index = Math.round(track.scrollLeft / track.clientWidth);
         counter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
-        syncActiveVideo(index);
       };
       panel.querySelectorAll('.carousel-controls button').forEach(button => {
         button.addEventListener('click', () => {
@@ -787,18 +839,6 @@
         });
       });
       track.addEventListener('scroll', updateCounter, { passive: true });
-      if (videoSlides.length) {
-        panel.addEventListener('mouseenter', () => {
-          videoCarouselHovered = true;
-          videoSlides.forEach(video => video.pause());
-        });
-        panel.addEventListener('mouseleave', () => {
-          videoCarouselHovered = false;
-          syncActiveVideo();
-        });
-        document.addEventListener('visibilitychange', () => syncActiveVideo());
-        syncActiveVideo();
-      }
       track.addEventListener('keydown', event => {
         if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
         event.preventDefault();
