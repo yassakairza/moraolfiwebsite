@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3eee5">
+  <meta name="description" content="Play Snack Catch, a little Mora & Olfi game. Catch as many treats as you can in 30 seconds.">
+  <title>Snack Catch! — Mora &amp; Olfi Games</title>
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root { --paper:#f3eee5; --paper-light:#fbf8f1; --ink:#1a1a1a; --orange:#f47721; --orange-deep:#d95c11; --soft-line:rgba(26,26,26,.18); --display:"Fredoka",sans-serif; --body:"Nunito Sans",sans-serif; --page:min(1180px,calc(100% - 40px)); --curve:24px; --shadow:6px 7px 0 var(--ink); }
+    *,*::before,*::after { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:90px; }
+    body { margin:0; color:var(--ink); background-color:var(--paper); background-image:radial-gradient(rgba(26,26,26,.065) .65px,transparent .65px); background-size:7px 7px; font-family:var(--body); line-height:1.55; -webkit-font-smoothing:antialiased; }
+    img { display:block; width:100%; }
+    a { color:inherit; }
+    button,a { -webkit-tap-highlight-color:transparent; }
+    :focus-visible { outline:3px solid var(--orange-deep); outline-offset:4px; }
+    .wrap { width:var(--page); margin-inline:auto; }
+    .section-pad { padding-block:clamp(76px,11vw,138px); }
+    .section-title { margin:0; font:600 clamp(2.5rem,6vw,5.4rem)/.96 var(--display); letter-spacing:-.045em; }
+    .eyebrow { display:inline-flex; align-items:center; gap:.55rem; margin:0 0 14px; font-size:.76rem; font-weight:800; letter-spacing:.13em; text-transform:uppercase; }
+    .eyebrow::before { content:""; width:24px; height:3px; background:var(--orange); }
+    .topbar { position:sticky; top:0; z-index:20; border-bottom:1px solid var(--soft-line); background:rgba(243,238,229,.94); backdrop-filter:blur(10px); }
+    .nav { position:relative; min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    .brand { display:inline-flex; flex:none; align-items:center; text-decoration:none; }
+    .brand-logo { display:block; width:auto; height:50px; }
+    .nav-links { display:flex; align-items:center; gap:clamp(14px,2.4vw,30px); margin:0; padding:0; list-style:none; }
+    .nav-links a { font-size:.82rem; font-weight:800; text-decoration:none; }
+    .nav-links a:hover,.nav-links a[aria-current="page"] { text-decoration:underline; text-decoration-color:var(--orange); text-decoration-thickness:2px; text-underline-offset:5px; }
+    .nav-cta,.button { display:inline-flex; min-height:46px; align-items:center; justify-content:center; gap:9px; padding:0 18px; border:2px solid var(--ink); border-radius:999px; background:var(--orange); color:var(--ink); font-size:.88rem; font-weight:800; text-decoration:none; transition:transform .2s ease,box-shadow .2s ease,background .2s ease; }
+    .nav-cta:hover,.button:hover { transform:translate(-2px,-2px) rotate(-1deg); box-shadow:3px 4px 0 var(--ink); background:#ff8c3c; }
+    .menu-toggle { display:none; width:44px; height:44px; border:2px solid var(--ink); border-radius:50%; background:var(--paper-light); color:var(--ink); }
+    .games-footer { min-height:64px; display:flex; align-items:center; }
+    .games-footer .wrap { display:flex; align-items:center; justify-content:space-between; gap:16px; font-size:.85rem; font-weight:700; }
+    .games-footer p { margin:0; }
+    .snack-game { overflow: hidden; border-block: 2px solid var(--ink); background: var(--orange); }
+    .snack-game-layout { display: grid; grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr); gap: clamp(28px, 5vw, 68px); align-items: center; }
+    .snack-game-copy .section-title { max-width: 460px; font-size: clamp(2.7rem, 5.5vw, 4.6rem); }
+    .snack-game-copy > p:not(.eyebrow):not(.snack-game-hint) { max-width: 430px; margin: 18px 0 16px; font-size: 1.05rem; font-weight: 700; }
+    .snack-game-hint { margin: 0; font-size: .9rem; font-weight: 800; }
+    .snack-game-panel { padding: clamp(12px, 2vw, 20px); border: 3px solid var(--ink); border-radius: var(--curve); background: var(--paper-light); box-shadow: var(--shadow); }
+    .snack-game-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-bottom: 12px; }
+    .snack-game-stat { padding: 7px 11px; border: 1px solid var(--soft-line); border-radius: 12px; background: #fff; }
+    .snack-game-stat span { display: block; font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .snack-game-stat strong { display: block; font: 600 1.25rem/1.2 var(--display); font-variant-numeric: tabular-nums; }
+    #snack-canvas { display: block; width: 100%; aspect-ratio: 1.92; border: 2px solid var(--ink); border-radius: 15px; background: var(--paper); touch-action: pan-y; }
+    .snack-game-status { min-height: 1.55em; margin: 9px 0; text-align: center; font-size: .88rem; font-weight: 800; }
+    .snack-game-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .snack-game-move { display: flex; gap: 9px; }
+    .snack-game-move button { display: grid; width: 48px; height: 48px; place-items: center; padding: 0; border: 2px solid var(--ink); border-radius: 50%; background: var(--paper-light); color: var(--ink); font-size: 1.25rem; font-weight: 900; cursor: pointer; touch-action: manipulation; }
+    .snack-game-move button:hover { background: var(--ink); color: var(--paper-light); }
+    .snack-game-action { min-width: 142px; cursor: pointer; }
+    .snack-game-action:disabled { cursor: not-allowed; opacity: .55; }
+    .snack-game-instructions { margin: 12px 0 0; text-align: center; font-size: .8rem; font-weight: 700; }
+    @media (max-width:820px) {
+      :root { --page:min(100% - 34px,650px); }
+      .nav { min-height:66px; }
+      .brand-logo { height:44px; }
+      .nav-cta { display:none; }
+      .menu-toggle { display:inline-grid; place-items:center; }
+      .nav-links { display:none; position:absolute; top:calc(100% + 1px); left:0; right:0; padding:18px 24px 22px; border-bottom:2px solid var(--ink); background:var(--paper-light); flex-direction:column; align-items:stretch; gap:0; }
+      .nav-links.open { display:flex; }
+      .nav-links a { display:block; padding:12px 0; border-bottom:1px solid var(--soft-line); font-size:1rem; }
+      .snack-game-layout { grid-template-columns:1fr; gap:24px; }
+    }
+    @media (max-width:520px) {
+      :root { --page:calc(100% - 28px); --curve:17px; }
+      .snack-game { padding-block: 58px; }
+      .snack-game-layout { gap: 22px; }
+      .snack-game-copy .section-title { font-size: clamp(2.5rem, 11vw, 3.5rem); }
+      .snack-game-panel { padding: 10px; }
+      .snack-game-stats { gap: 6px; }
+      .snack-game-stat { padding: 6px 8px; }
+      .snack-game-stat span { font-size: .6rem; }
+      .snack-game-controls { gap: 8px; }
+      .snack-game-move { gap: 6px; }
+      .snack-game-action { min-width: 126px; padding-inline: 12px; }
+      .games-footer .wrap { align-items:flex-start; flex-direction:column; }
+    }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition-duration:.01ms !important; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="nav wrap" aria-label="Main navigation">
+      <a class="brand" href="index.html#home" aria-label="Mora and Olfi home"><img class="brand-logo" src="logo-trimmed.png" alt="" width="2151" height="1168"></a>
+      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-links"><i data-lucide="menu" aria-hidden="true"></i></button>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html#about">The Characters</a></li>
+        <li><a href="index.html#content">Content Making</a></li>
+        <li><a href="index.html#market">Merchandise</a></li>
+        <li><a href="games.html" aria-current="page">Games</a></li>
+        <li><a href="index.html#exhibitions">Exhibition</a></li>
+        <li><a href="index.html#potential">IP Potential</a></li>
+      </ul>
+      <a class="nav-cta" href="index.html#contact">Let’s Collaborate! <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+    </nav>
+  </header>
+  <main>
+    <section class="snack-game section-pad" id="snack-game" aria-labelledby="snack-game-title">
+      <div class="snack-game-layout wrap">
+        <div class="snack-game-copy">
+          <p class="eyebrow">A little break</p>
+          <h1 class="section-title" id="snack-game-title">Snack<br>Catch!</h1>
+          <p>Help Mora catch as many treats as possible before snack time is over.</p>
+          <p class="snack-game-hint">You have 30 seconds. How many can you catch?</p>
+        </div>
+        <div class="snack-game-panel">
+          <div class="snack-game-stats" aria-label="Game score">
+            <div class="snack-game-stat"><span>Score</span><strong id="snack-score">0</strong></div>
+            <div class="snack-game-stat"><span>Time</span><strong id="snack-time">30</strong></div>
+            <div class="snack-game-stat"><span>Best</span><strong id="snack-best">0</strong></div>
+          </div>
+          <canvas id="snack-canvas" width="960" height="500" tabindex="0" aria-label="Snack Catch game. Move Mora left and right to catch the falling treats.">Your browser does not support this game canvas.</canvas>
+          <p class="snack-game-status" id="snack-status" role="status" aria-live="polite">Press “Start game” when you’re ready.</p>
+          <div class="snack-game-controls">
+            <div class="snack-game-move" role="group" aria-label="Move Mora">
+              <button type="button" id="snack-left" aria-label="Move left">←</button>
+              <button type="button" id="snack-right" aria-label="Move right">→</button>
+            </div>
+            <button class="button snack-game-action" type="button" id="snack-action">Start game</button>
+          </div>
+          <p class="snack-game-instructions">Use ← and → or A and D. On touch screens, tap the arrows or drag Mora.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="games-footer"><div class="wrap"><p>Mora &amp; Olfi · Since 2019</p><a href="index.html#home">Back to the Mora &amp; Olfi site</a></div></footer>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    if (window.lucide) window.lucide.createIcons();
+
+    const snackGame = document.querySelector('#snack-game');
+    if (snackGame) {
+      const canvas = snackGame.querySelector('#snack-canvas');
+      const ctx = canvas.getContext('2d');
+      const scoreDisplay = snackGame.querySelector('#snack-score');
+      const timeDisplay = snackGame.querySelector('#snack-time');
+      const bestDisplay = snackGame.querySelector('#snack-best');
+      const statusDisplay = snackGame.querySelector('#snack-status');
+      const actionButton = snackGame.querySelector('#snack-action');
+      const leftButton = snackGame.querySelector('#snack-left');
+      const rightButton = snackGame.querySelector('#snack-right');
+      const catcherImage = new Image();
+      catcherImage.src = 'images-transparent.png';
+      const treats = ['🍪', '🍩', '🍬', '🧁', '🍡'];
+      let width = 960;
+      let height = 500;
+      const duration = 30000;
+      let phase = 'ready';
+      let score = 0;
+      let best = 0;
+      let remaining = duration;
+      let elapsed = 0;
+      let spawnElapsed = 0;
+      let previousFrame = 0;
+      let previousSecond = 30;
+      let playerX = width / 2;
+      let fallingTreats = [];
+      let frameId = null;
+      let dragging = false;
+
+      try { best = Number(localStorage.getItem('mora-olfi-snack-catch-best')) || 0; } catch (error) {}
+      bestDisplay.textContent = String(best);
+
+      const playerWidth = () => Math.max(74, Math.min(122, width * .16));
+      const trayWidth = () => playerWidth() * 1.12;
+      const draw = () => {
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = '#f3eee5';
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = 'rgba(244,119,33,.12)';
+        const dotGapX = Math.max(30, width * .08);
+        const dotGapY = Math.max(28, height * .15);
+        for (let x = dotGapX / 2; x < width; x += dotGapX) {
+          for (let y = dotGapY / 2; y < height - 54; y += dotGapY) {
+            ctx.beginPath();
+            ctx.arc(x + (Math.floor(y / dotGapY) % 2) * dotGapX / 2, y, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+        ctx.fillStyle = '#fbf8f1';
+        ctx.fillRect(0, height - 43, width, 43);
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(0, height - 44, width, 3);
+
+        const playerW = playerWidth();
+        const playerH = playerW * .96;
+        const trayW = trayWidth();
+        const playerTop = height - playerH - 42;
+        if (catcherImage.complete && catcherImage.naturalWidth) {
+          ctx.drawImage(catcherImage, playerX - playerW / 2, playerTop, playerW, playerH);
+        }
+        const trayY = height - 48;
+        ctx.fillStyle = '#f47721';
+        ctx.fillRect(playerX - trayW / 2, trayY - 7, trayW, 16);
+        ctx.strokeStyle = '#1a1a1a';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(playerX - trayW / 2, trayY - 7, trayW, 16);
+
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = `${Math.max(24, Math.min(38, width * .06))}px "Apple Color Emoji", "Segoe UI Emoji", sans-serif`;
+        fallingTreats.forEach(treat => ctx.fillText(treat.glyph, treat.x, treat.y));
+
+        if (phase === 'ready' || phase === 'over') {
+          ctx.fillStyle = 'rgba(251,248,241,.88)';
+          ctx.fillRect(0, 0, width, height - 44);
+          ctx.fillStyle = '#1a1a1a';
+          ctx.font = `600 ${Math.max(19, Math.min(32, width * .05))}px Fredoka, sans-serif`;
+          ctx.fillText(phase === 'ready' ? 'Ready for snack time?' : 'Snack time is over!', width / 2, height / 2 - 10);
+          ctx.font = `700 ${Math.max(15, Math.min(19, width * .03))}px "Nunito Sans", sans-serif`;
+          ctx.fillText(phase === 'ready' ? 'Press Start game to play' : `You caught ${score} ${score === 1 ? 'treat' : 'treats'}!`, width / 2, height / 2 + 28);
+        }
+      };
+
+      const resizeCanvas = () => {
+        const bounds = canvas.getBoundingClientRect();
+        if (!bounds.width || !bounds.height) return;
+        const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        width = bounds.width;
+        height = bounds.height;
+        canvas.width = Math.round(width * pixelRatio);
+        canvas.height = Math.round(height * pixelRatio);
+        ctx.setTransform(canvas.width / width, 0, 0, canvas.height / height, 0, 0);
+        playerX = Math.max(trayWidth() / 2, Math.min(width - trayWidth() / 2, playerX));
+        draw();
+      };
+      window.addEventListener('resize', resizeCanvas);
+      const updateDisplays = () => {
+        scoreDisplay.textContent = String(score);
+        timeDisplay.textContent = String(Math.ceil(remaining / 1000));
+        bestDisplay.textContent = String(best);
+      };
+
+      const stopLoop = () => {
+        if (frameId !== null) window.cancelAnimationFrame(frameId);
+        frameId = null;
+      };
+
+      const finishGame = () => {
+        phase = 'over';
+        remaining = 0;
+        stopLoop();
+        actionButton.textContent = 'Play again';
+        statusDisplay.textContent = `Time! You caught ${score} ${score === 1 ? 'treat' : 'treats'}.`;
+        updateDisplays();
+        draw();
+      };
+
+      const startGame = () => {
+        score = 0;
+        remaining = duration;
+        elapsed = 0;
+        spawnElapsed = 0;
+        previousSecond = 30;
+        playerX = width / 2;
+        fallingTreats = [];
+        phase = 'running';
+        previousFrame = performance.now();
+        actionButton.textContent = 'Pause';
+        statusDisplay.textContent = 'Catch the treats!';
+        updateDisplays();
+        canvas.focus({ preventScroll: true });
+        frameId = window.requestAnimationFrame(gameFrame);
+      };
+
+      const gameFrame = now => {
+        if (phase !== 'running') return;
+        const delta = Math.min(now - previousFrame, 50);
+        previousFrame = now;
+        elapsed += delta;
+        remaining = Math.max(0, duration - elapsed);
+        spawnElapsed += delta;
+        const spawnInterval = Math.max(480, 820 - elapsed / 100);
+        while (spawnElapsed >= spawnInterval) {
+          spawnElapsed -= spawnInterval;
+          fallingTreats.push({ x: 34 + Math.random() * (width - 68), y: -24, speed: height * (.42 + Math.random() * .1) + Math.min(height * .3, elapsed / 180), glyph: treats[Math.floor(Math.random() * treats.length)] });
+        }
+
+        fallingTreats = fallingTreats.filter(treat => {
+          treat.y += treat.speed * delta / 1000;
+          if (treat.y >= height - 78 && treat.y <= height - 36 && Math.abs(treat.x - playerX) < trayWidth() / 2 + 14) {
+            score += 1;
+            if (score > best) {
+              best = score;
+              try { localStorage.setItem('mora-olfi-snack-catch-best', String(best)); } catch (error) {}
+            }
+            if (score % 5 === 0) statusDisplay.textContent = `Yum! ${score} treats caught.`;
+            updateDisplays();
+            return false;
+          }
+          return treat.y < height + 30;
+        });
+
+        const currentSecond = Math.ceil(remaining / 1000);
+        if (currentSecond !== previousSecond) {
+          previousSecond = currentSecond;
+          updateDisplays();
+        }
+        draw();
+        if (remaining <= 0) {
+          finishGame();
+          return;
+        }
+        frameId = window.requestAnimationFrame(gameFrame);
+      };
+
+      actionButton.addEventListener('click', () => {
+        if (phase === 'ready' || phase === 'over') {
+          startGame();
+        } else if (phase === 'running') {
+          phase = 'paused';
+          stopLoop();
+          actionButton.textContent = 'Resume';
+          statusDisplay.textContent = 'Paused. Press Resume when you are ready.';
+          draw();
+        } else {
+          phase = 'running';
+          previousFrame = performance.now();
+          actionButton.textContent = 'Pause';
+          statusDisplay.textContent = 'Catch the treats!';
+          frameId = window.requestAnimationFrame(gameFrame);
+        }
+      });
+
+      const movePlayer = direction => {
+        if (phase !== 'running') return;
+        playerX = Math.max(trayWidth() / 2, Math.min(width - trayWidth() / 2, playerX + direction * 76));
+        draw();
+      };
+      leftButton.addEventListener('click', () => movePlayer(-1));
+      rightButton.addEventListener('click', () => movePlayer(1));
+
+      canvas.addEventListener('keydown', event => {
+        const direction = event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a' ? -1
+          : event.key === 'ArrowRight' || event.key.toLowerCase() === 'd' ? 1 : 0;
+        if (direction) {
+          event.preventDefault();
+          movePlayer(direction);
+        }
+      });
+      canvas.addEventListener('pointerdown', event => {
+        if (phase !== 'running') return;
+        dragging = true;
+        canvas.setPointerCapture(event.pointerId);
+        playerX = Math.max(trayWidth() / 2, Math.min(width - trayWidth() / 2, event.offsetX / canvas.clientWidth * width));
+        canvas.focus({ preventScroll: true });
+        draw();
+      });
+      canvas.addEventListener('pointermove', event => {
+        if (phase !== 'running' || !dragging) return;
+        playerX = Math.max(trayWidth() / 2, Math.min(width - trayWidth() / 2, event.offsetX / canvas.clientWidth * width));
+        draw();
+      });
+      canvas.addEventListener('pointerup', () => { dragging = false; });
+      canvas.addEventListener('pointercancel', () => { dragging = false; });
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden' && phase === 'running') {
+          phase = 'paused';
+          stopLoop();
+          actionButton.textContent = 'Resume';
+          statusDisplay.textContent = 'Paused while the page is hidden. Press Resume to continue.';
+          draw();
+        }
+      });
+      catcherImage.addEventListener('load', draw);
+      resizeCanvas();
+    }
+    const menuButton = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    menuButton.addEventListener('click', () => {
+      const open = menuButton.getAttribute('aria-expanded') === 'true';
+      menuButton.setAttribute('aria-expanded', String(!open));
+      menuButton.setAttribute('aria-label', open ? 'Open navigation' : 'Close navigation');
+      navLinks.classList.toggle('open', !open);
+      menuButton.innerHTML = `<i data-lucide="${open ? 'menu' : 'x'}" aria-hidden="true"></i>`;
+      if (window.lucide) window.lucide.createIcons();
+    });
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      menuButton.setAttribute('aria-expanded', 'false');
+      menuButton.setAttribute('aria-label', 'Open navigation');
+      menuButton.innerHTML = '<i data-lucide="menu" aria-hidden="true"></i>';
+      if (window.lucide) window.lucide.createIcons();
+    }));
+  </script>
+</body>
+</html>

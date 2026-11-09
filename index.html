@@ -167,26 +167,6 @@
     .market-store-link:hover { transform: translateY(-1px); background: var(--orange); color: var(--ink); }
     .market-store-link:focus-visible { outline: 3px solid var(--orange-deep); outline-offset: 3px; }
 
-    .snack-game { overflow: hidden; border-block: 2px solid var(--ink); background: var(--orange); }
-    .snack-game-layout { display: grid; grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr); gap: clamp(28px, 5vw, 68px); align-items: center; }
-    .snack-game-copy .section-title { max-width: 460px; font-size: clamp(2.7rem, 5.5vw, 4.6rem); }
-    .snack-game-copy > p:not(.eyebrow) { max-width: 430px; margin: 18px 0 16px; font-size: 1.05rem; font-weight: 700; }
-    .snack-game-hint { margin: 0; font-size: .9rem; font-weight: 800; }
-    .snack-game-panel { padding: clamp(12px, 2vw, 20px); border: 3px solid var(--ink); border-radius: var(--curve); background: var(--paper-light); box-shadow: var(--shadow); }
-    .snack-game-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; margin-bottom: 12px; }
-    .snack-game-stat { padding: 7px 11px; border: 1px solid var(--soft-line); border-radius: 12px; background: #fff; }
-    .snack-game-stat span { display: block; font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
-    .snack-game-stat strong { display: block; font: 600 1.25rem/1.2 var(--display); font-variant-numeric: tabular-nums; }
-    #snack-canvas { display: block; width: 100%; aspect-ratio: 1.92; border: 2px solid var(--ink); border-radius: 15px; background: var(--paper); touch-action: pan-y; }
-    .snack-game-status { min-height: 1.55em; margin: 9px 0; text-align: center; font-size: .88rem; font-weight: 800; }
-    .snack-game-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .snack-game-move { display: flex; gap: 9px; }
-    .snack-game-move button { display: grid; width: 48px; height: 48px; place-items: center; padding: 0; border: 2px solid var(--ink); border-radius: 50%; background: var(--paper-light); color: var(--ink); font-size: 1.25rem; font-weight: 900; cursor: pointer; touch-action: manipulation; }
-    .snack-game-move button:hover { background: var(--ink); color: var(--paper-light); }
-    .snack-game-action { min-width: 142px; cursor: pointer; }
-    .snack-game-action:disabled { cursor: not-allowed; opacity: .55; }
-    .snack-game-instructions { margin: 12px 0 0; text-align: center; font-size: .8rem; font-weight: 700; }
-
     .exhibitions { position: relative; isolation: isolate; overflow: hidden; background: var(--paper-light); border-block: 2px solid var(--ink); }
     .exhibitions > .wrap { position: relative; z-index: 1; }
     /* TODO: replace with exhibition decor image */
@@ -402,7 +382,6 @@
       .nav-links.open { display: flex; }
       .nav-links a { display: block; padding: 12px 0; border-bottom: 1px solid var(--soft-line); font-size: 1rem; }
       .about-grid, .what, .market, .ex-feature, .collab-head { grid-template-columns: 1fr; }
-      .snack-game-layout { grid-template-columns: 1fr; gap: 24px; }
       .hero-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); column-gap: clamp(16px, 3vw, 28px); }
       .hero-grid { min-height: 0; }
       .hero-grid::after { content: ""; min-height: min(105vw, 560px); margin-top: 10px; }
@@ -435,16 +414,6 @@
     @media (max-width: 600px) { .contact-sticker { display: none; } }
     @media (max-width: 520px) {
       :root { --page: calc(100% - 28px); --curve: 17px; }
-      .snack-game { padding-block: 58px; }
-      .snack-game-layout { gap: 22px; }
-      .snack-game-copy .section-title { font-size: clamp(2.5rem, 11vw, 3.5rem); }
-      .snack-game-panel { padding: 10px; }
-      .snack-game-stats { gap: 6px; }
-      .snack-game-stat { padding: 6px 8px; }
-      .snack-game-stat span { font-size: .6rem; }
-      .snack-game-controls { gap: 8px; }
-      .snack-game-move { gap: 6px; }
-      .snack-game-action { min-width: 126px; padding-inline: 12px; }
       .hero { padding-top: 44px; }
       .hero-grid { grid-template-columns: minmax(0, 1.45fr) minmax(0, .55fr); column-gap: 0; }
       .hero-logo { width: clamp(140px, 44vw, 200px); height: auto; }
@@ -491,7 +460,7 @@
         <li><a href="#about">The Characters</a></li>
         <li><a href="#content">Content Making</a></li>
         <li><a href="#market">Merchandise</a></li>
-        <li><a href="#snack-game">Snack Game</a></li>
+        <li><a href="games.html">Games</a></li>
         <li><a href="#exhibitions">Exhibition</a></li>
         <li><a href="#potential">IP Potential</a></li>
       </ul>
@@ -597,34 +566,6 @@
             <article><h3>Art Market</h3><p>Has been invited to participate in various events sponsored by private sectors, art communities, and government programs</p></article>
             <article class="market-online"><h3>Online Store</h3><p>Get Mora &amp; Olfi merchandise anytime through our official online store</p><!-- /* TODO: confirm Shopee URL */ --><a class="market-store-link" href="https://shopee.co.id/moraolfi.store" target="_blank" rel="noopener noreferrer">Visit our Shopee store <i data-lucide="external-link" aria-hidden="true"></i></a></article>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="snack-game section-pad" id="snack-game" aria-labelledby="snack-game-title">
-      <div class="snack-game-layout wrap">
-        <div class="snack-game-copy">
-          <p class="eyebrow">A little break</p>
-          <h2 class="section-title" id="snack-game-title">Snack<br>Catch!</h2>
-          <p>Help Mora catch as many treats as possible before snack time is over.</p>
-          <p class="snack-game-hint">You have 30 seconds. How many can you catch?</p>
-        </div>
-        <div class="snack-game-panel">
-          <div class="snack-game-stats" aria-label="Game score">
-            <div class="snack-game-stat"><span>Score</span><strong id="snack-score">0</strong></div>
-            <div class="snack-game-stat"><span>Time</span><strong id="snack-time">30</strong></div>
-            <div class="snack-game-stat"><span>Best</span><strong id="snack-best">0</strong></div>
-          </div>
-          <canvas id="snack-canvas" width="960" height="500" tabindex="0" aria-label="Snack Catch game. Move Mora left and right to catch the falling treats.">Your browser does not support this game canvas.</canvas>
-          <p class="snack-game-status" id="snack-status" role="status" aria-live="polite">Press “Start game” when you’re ready.</p>
-          <div class="snack-game-controls">
-            <div class="snack-game-move" role="group" aria-label="Move Mora">
-              <button type="button" id="snack-left" aria-label="Move left">←</button>
-              <button type="button" id="snack-right" aria-label="Move right">→</button>
-            </div>
-            <button class="button snack-game-action" type="button" id="snack-action">Start game</button>
-          </div>
-          <p class="snack-game-instructions">Use ← and → or A and D. On touch screens, tap the arrows or drag Mora.</p>
         </div>
       </div>
     </section>
@@ -913,226 +854,6 @@
         track.scrollTo({ left: slides[next].offsetLeft, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
       });
     });
-
-    const snackGame = document.querySelector('#snack-game');
-    if (snackGame) {
-      const canvas = snackGame.querySelector('#snack-canvas');
-      const ctx = canvas.getContext('2d');
-      const scoreDisplay = snackGame.querySelector('#snack-score');
-      const timeDisplay = snackGame.querySelector('#snack-time');
-      const bestDisplay = snackGame.querySelector('#snack-best');
-      const statusDisplay = snackGame.querySelector('#snack-status');
-      const actionButton = snackGame.querySelector('#snack-action');
-      const leftButton = snackGame.querySelector('#snack-left');
-      const rightButton = snackGame.querySelector('#snack-right');
-      const catcherImage = new Image();
-      catcherImage.src = 'images-transparent.png';
-      const treats = ['🍪', '🍩', '🍬', '🧁', '🍡'];
-      const width = 960;
-      const height = 500;
-      const duration = 30000;
-      let phase = 'ready';
-      let score = 0;
-      let best = 0;
-      let remaining = duration;
-      let elapsed = 0;
-      let spawnElapsed = 0;
-      let previousFrame = 0;
-      let previousSecond = 30;
-      let playerX = width / 2;
-      let fallingTreats = [];
-      let frameId = null;
-      let dragging = false;
-
-      try { best = Number(localStorage.getItem('mora-olfi-snack-catch-best')) || 0; } catch (error) {}
-      bestDisplay.textContent = String(best);
-
-      const draw = () => {
-        ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = '#f3eee5';
-        ctx.fillRect(0, 0, width, height);
-        ctx.fillStyle = 'rgba(244,119,33,.12)';
-        for (let x = 38; x < width; x += 76) {
-          for (let y = 34; y < height - 54; y += 74) {
-            ctx.beginPath();
-            ctx.arc(x + (Math.floor(y / 74) % 2) * 30, y, 3, 0, Math.PI * 2);
-            ctx.fill();
-          }
-        }
-        ctx.fillStyle = '#fbf8f1';
-        ctx.fillRect(0, height - 43, width, 43);
-        ctx.fillStyle = '#1a1a1a';
-        ctx.fillRect(0, height - 44, width, 3);
-
-        const playerWidth = 112;
-        const playerHeight = 108;
-        const playerTop = height - 150;
-        if (catcherImage.complete && catcherImage.naturalWidth) {
-          ctx.drawImage(catcherImage, playerX - playerWidth / 2, playerTop, playerWidth, playerHeight);
-        }
-        const trayY = height - 48;
-        ctx.fillStyle = '#f47721';
-        ctx.fillRect(playerX - 58, trayY - 7, 116, 16);
-        ctx.strokeStyle = '#1a1a1a';
-        ctx.lineWidth = 4;
-        ctx.strokeRect(playerX - 58, trayY - 7, 116, 16);
-
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.font = '34px "Apple Color Emoji", "Segoe UI Emoji", sans-serif';
-        fallingTreats.forEach(treat => ctx.fillText(treat.glyph, treat.x, treat.y));
-
-        if (phase === 'ready' || phase === 'over') {
-          ctx.fillStyle = 'rgba(251,248,241,.88)';
-          ctx.fillRect(0, 0, width, height - 44);
-          ctx.fillStyle = '#1a1a1a';
-          ctx.font = '600 32px Fredoka, sans-serif';
-          ctx.fillText(phase === 'ready' ? 'Ready for snack time?' : 'Snack time is over!', width / 2, height / 2 - 10);
-          ctx.font = '700 19px "Nunito Sans", sans-serif';
-          ctx.fillText(phase === 'ready' ? 'Press Start game to play' : `You caught ${score} ${score === 1 ? 'treat' : 'treats'}!`, width / 2, height / 2 + 28);
-        }
-      };
-
-      const updateDisplays = () => {
-        scoreDisplay.textContent = String(score);
-        timeDisplay.textContent = String(Math.ceil(remaining / 1000));
-        bestDisplay.textContent = String(best);
-      };
-
-      const stopLoop = () => {
-        if (frameId !== null) window.cancelAnimationFrame(frameId);
-        frameId = null;
-      };
-
-      const finishGame = () => {
-        phase = 'over';
-        remaining = 0;
-        stopLoop();
-        actionButton.textContent = 'Play again';
-        statusDisplay.textContent = `Time! You caught ${score} ${score === 1 ? 'treat' : 'treats'}.`;
-        updateDisplays();
-        draw();
-      };
-
-      const startGame = () => {
-        score = 0;
-        remaining = duration;
-        elapsed = 0;
-        spawnElapsed = 0;
-        previousSecond = 30;
-        playerX = width / 2;
-        fallingTreats = [];
-        phase = 'running';
-        previousFrame = performance.now();
-        actionButton.textContent = 'Pause';
-        statusDisplay.textContent = 'Catch the treats!';
-        updateDisplays();
-        canvas.focus({ preventScroll: true });
-        frameId = window.requestAnimationFrame(gameFrame);
-      };
-
-      const gameFrame = now => {
-        if (phase !== 'running') return;
-        const delta = Math.min(now - previousFrame, 50);
-        previousFrame = now;
-        elapsed += delta;
-        remaining = Math.max(0, duration - elapsed);
-        spawnElapsed += delta;
-        const spawnInterval = Math.max(480, 820 - elapsed / 100);
-        while (spawnElapsed >= spawnInterval) {
-          spawnElapsed -= spawnInterval;
-          fallingTreats.push({ x: 34 + Math.random() * (width - 68), y: -24, speed: 170 + Math.random() * 45 + Math.min(100, elapsed / 180), glyph: treats[Math.floor(Math.random() * treats.length)] });
-        }
-
-        fallingTreats = fallingTreats.filter(treat => {
-          treat.y += treat.speed * delta / 1000;
-          if (treat.y >= height - 78 && treat.y <= height - 36 && Math.abs(treat.x - playerX) < 62) {
-            score += 1;
-            if (score > best) {
-              best = score;
-              try { localStorage.setItem('mora-olfi-snack-catch-best', String(best)); } catch (error) {}
-            }
-            if (score % 5 === 0) statusDisplay.textContent = `Yum! ${score} treats caught.`;
-            updateDisplays();
-            return false;
-          }
-          return treat.y < height + 30;
-        });
-
-        const currentSecond = Math.ceil(remaining / 1000);
-        if (currentSecond !== previousSecond) {
-          previousSecond = currentSecond;
-          updateDisplays();
-        }
-        draw();
-        if (remaining <= 0) {
-          finishGame();
-          return;
-        }
-        frameId = window.requestAnimationFrame(gameFrame);
-      };
-
-      actionButton.addEventListener('click', () => {
-        if (phase === 'ready' || phase === 'over') {
-          startGame();
-        } else if (phase === 'running') {
-          phase = 'paused';
-          stopLoop();
-          actionButton.textContent = 'Resume';
-          statusDisplay.textContent = 'Paused. Press Resume when you are ready.';
-          draw();
-        } else {
-          phase = 'running';
-          previousFrame = performance.now();
-          actionButton.textContent = 'Pause';
-          statusDisplay.textContent = 'Catch the treats!';
-          frameId = window.requestAnimationFrame(gameFrame);
-        }
-      });
-
-      const movePlayer = direction => {
-        if (phase !== 'running') return;
-        playerX = Math.max(62, Math.min(width - 62, playerX + direction * 76));
-        draw();
-      };
-      leftButton.addEventListener('click', () => movePlayer(-1));
-      rightButton.addEventListener('click', () => movePlayer(1));
-
-      canvas.addEventListener('keydown', event => {
-        const direction = event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a' ? -1
-          : event.key === 'ArrowRight' || event.key.toLowerCase() === 'd' ? 1 : 0;
-        if (direction) {
-          event.preventDefault();
-          movePlayer(direction);
-        }
-      });
-      canvas.addEventListener('pointerdown', event => {
-        if (phase !== 'running') return;
-        dragging = true;
-        canvas.setPointerCapture(event.pointerId);
-        playerX = Math.max(62, Math.min(width - 62, event.offsetX / canvas.clientWidth * width));
-        canvas.focus({ preventScroll: true });
-        draw();
-      });
-      canvas.addEventListener('pointermove', event => {
-        if (phase !== 'running' || !dragging) return;
-        playerX = Math.max(62, Math.min(width - 62, event.offsetX / canvas.clientWidth * width));
-        draw();
-      });
-      canvas.addEventListener('pointerup', () => { dragging = false; });
-      canvas.addEventListener('pointercancel', () => { dragging = false; });
-      document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'hidden' && phase === 'running') {
-          phase = 'paused';
-          stopLoop();
-          actionButton.textContent = 'Resume';
-          statusDisplay.textContent = 'Paused while the page is hidden. Press Resume to continue.';
-          draw();
-        }
-      });
-      catcherImage.addEventListener('load', draw);
-      draw();
-    }
 
     const menuButton = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
