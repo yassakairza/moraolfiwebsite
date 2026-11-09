@@ -293,8 +293,9 @@
         previousFrame = now;
         elapsed += delta;
         spawnElapsed += delta;
-        const difficulty = 1 + Math.min(2.2, elapsed / 30000);
-        const spawnInterval = Math.max(260, 820 / difficulty);
+        const speedStep = Math.min(9, Math.floor(elapsed / 30000));
+        const difficulty = .65 + speedStep * .2;
+        const spawnInterval = Math.max(360, 1000 - speedStep * 80);
         while (spawnElapsed >= spawnInterval) {
           spawnElapsed -= spawnInterval;
           const treat = treats[Math.floor(Math.random() * treats.length)];
