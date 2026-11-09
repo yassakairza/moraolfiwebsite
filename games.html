@@ -266,6 +266,7 @@
       let playerX = width / 2;
       let fallingTreats = [];
       let frameId = null;
+      const heldMovement = new Map();
 
       try { best = Number(localStorage.getItem('mora-olfi-snack-catch-best')) || 0; } catch (error) {}
       bestDisplay.textContent = String(best);
@@ -382,10 +383,12 @@
         if (frameId !== null) window.cancelAnimationFrame(frameId);
         frameId = null;
       };
+      const clearHeldMovement = () => heldMovement.clear();
 
       const finishGame = () => {
         phase = 'over';
         stopLoop();
+        clearHeldMovement();
         actionButton.textContent = 'Play again';
         statusDisplay.textContent = `Game over! You caught ${score} ${score === 1 ? 'treat' : 'treats'}.`;
         updateDisplays();
@@ -393,6 +396,7 @@
       };
 
       const startGame = () => {
+        clearHeldMovement();
         score = 0;
         lives = 9;
         elapsed = 0;
@@ -412,6 +416,8 @@
         if (phase !== 'running') return;
         const delta = Math.min(now - previousFrame, 50);
         previousFrame = now;
+        const heldDirection = Array.from(heldMovement.values()).at(-1) || 0;
+        if (heldDirection) movePlayer(heldDirection, Math.max(220, width * .75) * delta / 1000, false);
         elapsed += delta;
         spawnElapsed += delta;
         const speedStep = Math.min(9, Math.floor(elapsed / 30000));
@@ -470,6 +476,7 @@
         } else if (phase === 'running') {
           phase = 'paused';
           stopLoop();
+          clearHeldMovement();
           actionButton.textContent = 'Resume';
           statusDisplay.textContent = 'Paused. Press Resume when you are ready.';
           draw();
@@ -482,29 +489,43 @@
         }
       });
 
-      const movePlayer = direction => {
+      const movePlayer = (direction, distance = Math.max(34, Math.min(76, width * .13)), redraw = true) => {
         if (phase !== 'running') return;
-        const step = Math.max(34, Math.min(76, width * .13));
-        playerX = Math.max(trayWidth() / 2, Math.min(width - trayWidth() / 2, playerX + direction * step));
-        draw();
+        playerX = Math.max(trayWidth() / 2, Math.min(width - trayWidth() / 2, playerX + direction * distance));
+        if (redraw) draw();
       };
-      leftButton.addEventListener('click', () => movePlayer(-1));
-      rightButton.addEventListener('click', () => movePlayer(1));
+      const holdButtonDirection = (button, direction) => {
+        button.addEventListener('pointerdown', event => {
+          if (phase !== 'running') return;
+          event.preventDefault();
+          button.setPointerCapture(event.pointerId);
+          heldMovement.set(`pointer-${event.pointerId}`, direction);
+        });
+        const release = event => heldMovement.delete(`pointer-${event.pointerId}`);
+        button.addEventListener('pointerup', release);
+        button.addEventListener('pointercancel', release);
+        button.addEventListener('lostpointercapture', release);
+      };
+      holdButtonDirection(leftButton, -1);
+      holdButtonDirection(rightButton, 1);
 
       document.addEventListener('keydown', event => {
-        if (phase !== 'running' || event.repeat) return;
+        if (phase !== 'running') return;
         const key = event.key.toLowerCase();
         const direction = event.key === 'ArrowLeft' || key === 'a' ? -1
           : event.key === 'ArrowRight' || key === 'd' ? 1 : 0;
         if (direction) {
           event.preventDefault();
-          movePlayer(direction);
+          heldMovement.set(`key-${key}`, direction);
         }
       });
+      document.addEventListener('keyup', event => heldMovement.delete(`key-${event.key.toLowerCase()}`));
+      window.addEventListener('blur', clearHeldMovement);
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'hidden' && phase === 'running') {
           phase = 'paused';
           stopLoop();
+          clearHeldMovement();
           actionButton.textContent = 'Resume';
           statusDisplay.textContent = 'Paused while the page is hidden. Press Resume to continue.';
           draw();
