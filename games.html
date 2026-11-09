@@ -51,19 +51,20 @@
     .game-back-wrap { padding-top:20px; }
     .game-back { min-height:44px; padding:7px 13px; border:1.5px solid var(--ink); border-radius:999px; background:var(--paper-light); color:var(--ink); font:800 .88rem var(--body); cursor:pointer; }
     .game-back:hover { background:var(--ink); color:var(--paper-light); }
-    .maze-game { min-height:calc(100svh - 136px); padding-block:8px 12px; background:#a8d9ee; }
-    .maze-heading { margin:6px auto 10px; }
+    .maze-game { min-height:calc(100svh - 136px); padding-block:0 8px; background:#a8d9ee; }
+    .maze-game .game-back-wrap { padding-top:0; }
+    .maze-heading { margin:0 auto 8px; text-align:center; }
     .maze-heading .eyebrow { margin-bottom:4px; }
     .maze-heading h1 { margin:0; font:600 clamp(2rem,3.3vw,3rem)/.98 var(--display); letter-spacing:-.04em; }
-    .maze-heading p:not(.eyebrow) { margin:4px 0 0; font-size:.9rem; font-weight:800; }
-    .maze-panel { max-width:1100px; display:grid; grid-template-columns:minmax(0,1fr) 180px; gap:12px 18px; align-items:center; margin-inline:auto; padding:clamp(10px,1.5vw,16px); border:3px solid var(--ink); border-radius:var(--curve); background:var(--paper-light); box-shadow:var(--shadow); }
-    .maze-stats { grid-column:2; grid-row:1; display:grid; grid-template-columns:1fr; gap:7px; width:100%; margin:0; }
-    .maze-stat { padding:5px 8px; border:1px solid var(--soft-line); border-radius:10px; background:#fff; text-align:center; }
+    .maze-heading p:not(.eyebrow) { margin:4px auto 0; font-size:.9rem; font-weight:800; }
+    .maze-panel { width:fit-content; max-width:100%; display:flex; flex-direction:column; align-items:center; gap:12px; margin-inline:auto; padding:20px 24px; border:3px solid var(--ink); border-radius:var(--curve); background:var(--paper-light); box-shadow:var(--shadow); }
+    .maze-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; width:100%; max-width:700px; margin:0; }
+    .maze-stat { padding:8px; border:1px solid var(--soft-line); border-radius:10px; background:#fff; text-align:center; }
     .maze-stat span { display:block; font-size:.62rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
     .maze-stat strong { display:block; font:600 1.1rem/1.15 var(--display); font-variant-numeric:tabular-nums; }
-    #maze-canvas { grid-column:1; grid-row:1 / span 3; justify-self:center; display:block; width:min(100%,700px,max(220px,calc(100svh - 380px))); aspect-ratio:1; margin:0; border:2px solid var(--ink); border-radius:14px; background:var(--paper); touch-action:none; }
-    .maze-status { grid-column:2; grid-row:2; min-height:1.55em; margin:0; text-align:center; font-size:.88rem; font-weight:800; }
-    .maze-actions { grid-column:2; grid-row:3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; }
+    #maze-canvas { display:block; width:min(100%,700px,max(220px,calc(100svh - 380px))); aspect-ratio:1; margin:0; border:2px solid var(--ink); border-radius:14px; background:var(--paper); touch-action:none; }
+    .maze-status { min-height:1.55em; max-width:100%; margin:0; text-align:center; font-size:.95rem; font-weight:800; }
+    .maze-actions { display:flex; flex-direction:row; align-items:center; justify-content:center; gap:14px; }
     .maze-pad { display:grid; grid-template-columns:repeat(3,42px); grid-template-rows:repeat(2,38px); gap:4px; }
     .maze-pad button { border:2px solid var(--ink); border-radius:12px; background:#fff; color:var(--ink); font-size:1.2rem; font-weight:900; cursor:pointer; touch-action:manipulation; }
     .maze-pad button:hover { background:#f6c891; }
@@ -104,11 +105,13 @@
       .snack-game-layout { grid-template-columns:1fr; gap:24px; }
       .game-choice-grid { grid-template-columns:1fr; }
       .game-choice { min-height:145px; grid-template-columns:72px 1fr 24px; }
-      .maze-panel { max-width:760px; grid-template-columns:minmax(0,1fr); gap:8px; }
-      .maze-stats { grid-column:auto; grid-row:auto; grid-template-columns:repeat(3,minmax(0,1fr)); max-width:700px; margin:0 auto; }
-      #maze-canvas { grid-column:auto; grid-row:auto; width:min(100%,700px,max(220px,calc(100svh - 480px))); }
-      .maze-status { grid-column:auto; grid-row:auto; }
-      .maze-actions { grid-column:auto; grid-row:auto; flex-direction:row; }
+      .maze-panel { max-width:760px; gap:12px; }
+      .maze-stats { grid-template-columns:repeat(3,minmax(0,1fr)); max-width:700px; }
+      #maze-canvas { width:min(100%,700px,max(220px,calc(100svh - 480px))); }
+    }
+    @media (max-width:640px) {
+      .maze-panel { width:100%; max-width:100%; gap:8px; padding:16px; }
+      .maze-actions { flex-direction:column; }
     }
     @media (max-width:520px) {
       :root { --page:calc(100% - 28px); --curve:17px; }
@@ -202,12 +205,12 @@
           <p>Collect treasures in 60 seconds. Each one opens a new random maze.</p>
         </div>
         <div class="maze-panel">
+          <canvas id="maze-canvas" width="700" height="700" tabindex="0" aria-label="Random 10 by 10 maze. Use the arrow keys or movement buttons to guide Mora from the upper left to the treasure in the lower right.">Your browser does not support the maze game canvas.</canvas>
           <div class="maze-stats" aria-label="Treasure Maze score">
             <div class="maze-stat"><span>Treasures</span><strong id="maze-score">0</strong></div>
             <div class="maze-stat"><span>Time left</span><strong id="maze-time">60s</strong></div>
             <div class="maze-stat"><span>Best</span><strong id="maze-best">0</strong></div>
           </div>
-          <canvas id="maze-canvas" width="700" height="700" tabindex="0" aria-label="Random 10 by 10 maze. Use the arrow keys or movement buttons to guide Mora from the upper left to the treasure in the lower right.">Your browser does not support the maze game canvas.</canvas>
           <p class="maze-status" id="maze-status" role="status" aria-live="polite">Find as many treasures as you can!</p>
           <div class="maze-actions">
             <div class="maze-pad" role="group" aria-label="Move Mora through the maze">
