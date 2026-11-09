@@ -56,12 +56,17 @@
     .maze-heading h1 { margin:0; font:600 clamp(2.4rem,5vw,4rem)/.98 var(--display); letter-spacing:-.04em; }
     .maze-heading p:not(.eyebrow) { margin:10px 0 0; font-weight:800; }
     .maze-panel { max-width:760px; margin-inline:auto; padding:clamp(12px,2.2vw,22px); border:3px solid var(--ink); border-radius:var(--curve); background:var(--paper-light); box-shadow:var(--shadow); }
+    .maze-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; max-width:700px; margin:0 auto 12px; }
+    .maze-stat { padding:7px 11px; border:1px solid var(--soft-line); border-radius:12px; background:#fff; text-align:center; }
+    .maze-stat span { display:block; font-size:.68rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    .maze-stat strong { display:block; font:600 1.25rem/1.2 var(--display); font-variant-numeric:tabular-nums; }
     #maze-canvas { display:block; width:min(100%,700px); aspect-ratio:1; margin-inline:auto; border:2px solid var(--ink); border-radius:14px; background:var(--paper); touch-action:none; }
     .maze-status { min-height:1.55em; margin:12px 0; text-align:center; font-weight:800; }
     .maze-actions { display:flex; align-items:center; justify-content:center; gap:16px; }
     .maze-pad { display:grid; grid-template-columns:repeat(3,48px); grid-template-rows:repeat(2,44px); gap:4px; }
     .maze-pad button { border:2px solid var(--ink); border-radius:12px; background:#fff; color:var(--ink); font-size:1.2rem; font-weight:900; cursor:pointer; touch-action:manipulation; }
     .maze-pad button:hover { background:#f6c891; }
+    .maze-pad button:disabled { opacity:.5; cursor:not-allowed; }
     .maze-pad-up { grid-area:1 / 2; }
     .maze-pad-left { grid-area:2 / 1; }
     .maze-pad-down { grid-area:2 / 2; }
@@ -148,7 +153,7 @@
           </button>
           <button class="game-choice" type="button" data-game="maze">
             <span class="game-choice-art" aria-hidden="true">🗺️</span>
-            <span class="game-choice-copy"><strong>Treasure Maze</strong><span>Guide Mora through a new random maze to find the treasure.</span></span>
+            <span class="game-choice-copy"><strong>Treasure Maze</strong><span>Find as many treasures as you can before time runs out.</span></span>
             <span class="game-choice-arrow" aria-hidden="true">→</span>
           </button>
         </div>
@@ -190,11 +195,16 @@
         <div class="maze-heading">
           <p class="eyebrow">A little adventure</p>
           <h1 id="maze-title" tabindex="-1">Treasure Maze</h1>
-          <p>Find the path through the maze and guide Mora to the hidden treasure.</p>
+          <p>Collect treasures in 60 seconds. Each one opens a new random maze.</p>
         </div>
         <div class="maze-panel">
+          <div class="maze-stats" aria-label="Treasure Maze score">
+            <div class="maze-stat"><span>Treasures</span><strong id="maze-score">0</strong></div>
+            <div class="maze-stat"><span>Time left</span><strong id="maze-time">60s</strong></div>
+            <div class="maze-stat"><span>Best</span><strong id="maze-best">0</strong></div>
+          </div>
           <canvas id="maze-canvas" width="700" height="700" tabindex="0" aria-label="Random maze. Use the arrow keys or movement buttons to guide Mora from the upper left to the treasure in the lower right.">Your browser does not support the maze game canvas.</canvas>
-          <p class="maze-status" id="maze-status" role="status" aria-live="polite">Find the treasure!</p>
+          <p class="maze-status" id="maze-status" role="status" aria-live="polite">Find as many treasures as you can!</p>
           <div class="maze-actions">
             <div class="maze-pad" role="group" aria-label="Move Mora through the maze">
               <button class="maze-pad-up" type="button" data-maze-move="up" aria-label="Move up">↑</button>
@@ -490,14 +500,26 @@
     const mazeCanvas = document.querySelector('#maze-canvas');
     const mazeContext = mazeCanvas.getContext('2d');
     const mazeStatus = document.querySelector('#maze-status');
+    const mazeScoreDisplay = document.querySelector('#maze-score');
+    const mazeTimeDisplay = document.querySelector('#maze-time');
+    const mazeBestDisplay = document.querySelector('#maze-best');
+    const mazeNewButton = document.querySelector('#maze-new');
     const mazeColumns = 15;
     const mazeRows = 15;
+    const mazeDuration = 60;
     const mazePlayerImage = new Image();
     mazePlayerImage.src = 'maze-mora-olfi.png';
     let mazeWidth = 0;
     let maze = [];
     let mazePlayer = { row: 0, column: 0 };
     let treasureFound = false;
+    let mazeRunning = false;
+    let mazeTimeRemaining = mazeDuration;
+    let mazeScore = 0;
+    let mazeBest = 0;
+    let mazeTimer = null;
+    try { mazeBest = Number(localStorage.getItem('mora-olfi-treasure-maze-best')) || 0; } catch (error) {}
+    mazeBestDisplay.textContent = String(mazeBest);
 
     const drawMaze = () => {
       if (!maze.length || !mazeWidth) return;
@@ -596,8 +618,40 @@
       drawMaze();
     };
 
+    const stopMazeTimer = () => {
+      if (mazeTimer !== null) window.clearInterval(mazeTimer);
+      mazeTimer = null;
+    };
+
+    const endMazeRound = () => {
+      mazeRunning = false;
+      stopMazeTimer();
+      mazeTimeDisplay.textContent = '0s';
+      mazeStatus.textContent = `Time! You found ${mazeScore} ${mazeScore === 1 ? 'treasure' : 'treasures'}. Play again?`;
+      document.querySelectorAll('[data-maze-move]').forEach(button => { button.disabled = true; });
+      mazeNewButton.textContent = 'Play again';
+    };
+
+    const startMazeRound = () => {
+      stopMazeTimer();
+      mazeTimeRemaining = mazeDuration;
+      mazeScore = 0;
+      mazeRunning = true;
+      mazeScoreDisplay.textContent = '0';
+      mazeTimeDisplay.textContent = `${mazeTimeRemaining}s`;
+      mazeNewButton.textContent = 'New maze';
+      document.querySelectorAll('[data-maze-move]').forEach(button => { button.disabled = false; });
+      createMaze();
+      resizeMaze();
+      mazeTimer = window.setInterval(() => {
+        mazeTimeRemaining -= 1;
+        mazeTimeDisplay.textContent = `${mazeTimeRemaining}s`;
+        if (mazeTimeRemaining <= 0) endMazeRound();
+      }, 1000);
+    };
+
     const moveMaze = (direction) => {
-      if (activeGame !== 'maze' || treasureFound) return;
+      if (activeGame !== 'maze' || !mazeRunning || treasureFound) return;
       const cell = maze[mazePlayer.row][mazePlayer.column];
       if (direction === 'up' && !cell.top) mazePlayer.row -= 1;
       else if (direction === 'right' && !cell.right) mazePlayer.column += 1;
@@ -609,7 +663,15 @@
       }
       if (mazePlayer.row === mazeRows - 1 && mazePlayer.column === mazeColumns - 1) {
         treasureFound = true;
-        mazeStatus.textContent = 'Treasure found! Mora did it. Play a new maze?';
+        mazeScore += 1;
+        if (mazeScore > mazeBest) {
+          mazeBest = mazeScore;
+          mazeBestDisplay.textContent = String(mazeBest);
+          try { localStorage.setItem('mora-olfi-treasure-maze-best', String(mazeBest)); } catch (error) {}
+        }
+        mazeScoreDisplay.textContent = String(mazeScore);
+        createMaze();
+        mazeStatus.textContent = `Treasure ${mazeScore} found! A new maze is ready — go again!`;
       }
       drawMaze();
     };
@@ -627,12 +689,23 @@
     document.querySelectorAll('[data-maze-move]').forEach(button => {
       button.addEventListener('click', () => moveMaze(button.dataset.mazeMove));
     });
-    document.querySelector('#maze-new').addEventListener('click', createMaze);
+    mazeNewButton.addEventListener('click', () => {
+      if (mazeRunning) {
+        createMaze();
+        mazeStatus.textContent = 'Fresh maze! Find the treasure before time runs out.';
+      } else {
+        startMazeRound();
+      }
+    });
     mazePlayerImage.addEventListener('load', drawMaze);
     window.addEventListener('resize', resizeMaze);
 
     const showGamesLibrary = () => {
       if (activeGame === 'snack') window.pauseSnackCatch();
+      if (activeGame === 'maze') {
+        mazeRunning = false;
+        stopMazeTimer();
+      }
       Object.values(gameSections).forEach(section => { section.hidden = true; });
       gamesLibrary.hidden = false;
       activeGame = null;
@@ -651,8 +724,7 @@
         window.resizeSnackCatch();
         window.startSnackCatch();
       } else {
-        resizeMaze();
-        createMaze();
+        startMazeRound();
         mazeCanvas.focus({ preventScroll: true });
       }
       gameSections[name].querySelector('h1').focus({ preventScroll: true });
