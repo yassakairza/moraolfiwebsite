@@ -203,7 +203,7 @@
             <div class="maze-stat"><span>Time left</span><strong id="maze-time">60s</strong></div>
             <div class="maze-stat"><span>Best</span><strong id="maze-best">0</strong></div>
           </div>
-          <canvas id="maze-canvas" width="700" height="700" tabindex="0" aria-label="Random 12 by 12 maze. Use the arrow keys or movement buttons to guide Mora from the upper left to the treasure in the lower right.">Your browser does not support the maze game canvas.</canvas>
+          <canvas id="maze-canvas" width="700" height="700" tabindex="0" aria-label="Random 10 by 10 maze. Use the arrow keys or movement buttons to guide Mora from the upper left to the treasure in the lower right.">Your browser does not support the maze game canvas.</canvas>
           <p class="maze-status" id="maze-status" role="status" aria-live="polite">Find as many treasures as you can!</p>
           <div class="maze-actions">
             <div class="maze-pad" role="group" aria-label="Move Mora through the maze">
@@ -504,8 +504,8 @@
     const mazeTimeDisplay = document.querySelector('#maze-time');
     const mazeBestDisplay = document.querySelector('#maze-best');
     const mazeNewButton = document.querySelector('#maze-new');
-    const mazeColumns = 12;
-    const mazeRows = 12;
+    const mazeColumns = 10;
+    const mazeRows = 10;
     const mazeDuration = 60;
     const mazePlayerImage = new Image();
     mazePlayerImage.src = 'maze-mora-olfi.png';
