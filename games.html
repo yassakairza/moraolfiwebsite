@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f3eee5">
-  <meta name="description" content="Play Snack Catch, a little Mora & Olfi game. Catch the falling treats in 30 seconds.">
+  <meta name="description" content="Play Snack Catch, a little Mora & Olfi game. Catch the falling treats and keep all nine lives.">
   <title>Snack Catch! — Mora &amp; Olfi Games</title>
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -107,13 +107,13 @@
         <div class="snack-game-copy">
           <p class="eyebrow">A little break</p>
           <h1 class="section-title" id="snack-game-title">Snack<br>Catch!</h1>
-          <p>Help Mora catch as many treats as possible before snack time is over.</p>
-          <p class="snack-game-hint">You have 30 seconds. How many can you catch?</p>
+          <p>Help Mora catch as many treats as you can. The game ends when all nine lives are gone.</p>
+          <p class="snack-game-hint">Catch the falling treats. You have 9 lives!</p>
         </div>
         <div class="snack-game-panel">
           <div class="snack-game-stats" aria-label="Game score">
             <div class="snack-game-stat"><span>Score</span><strong id="snack-score">0</strong></div>
-            <div class="snack-game-stat"><span>Time</span><strong id="snack-time">30</strong></div>
+            <div class="snack-game-stat"><span>Lives</span><strong id="snack-lives">9</strong></div>
             <div class="snack-game-stat"><span>Best</span><strong id="snack-best">0</strong></div>
           </div>
           <canvas id="snack-canvas" width="960" height="750" tabindex="0" aria-label="Snack Catch game. Move Mora left and right to catch falling food.">Your browser does not support this game canvas.</canvas>
@@ -140,7 +140,7 @@
       const canvas = snackGame.querySelector('#snack-canvas');
       const ctx = canvas.getContext('2d');
       const scoreDisplay = snackGame.querySelector('#snack-score');
-      const timeDisplay = snackGame.querySelector('#snack-time');
+      const livesDisplay = snackGame.querySelector('#snack-lives');
       const bestDisplay = snackGame.querySelector('#snack-best');
       const statusDisplay = snackGame.querySelector('#snack-status');
       const actionButton = snackGame.querySelector('#snack-action');
@@ -161,15 +161,13 @@
       treats.forEach(treat => { treat.image.src = treat.src; });
       let width = 960;
       let height = 750;
-      const duration = 30000;
       let phase = 'ready';
       let score = 0;
       let best = 0;
-      let remaining = duration;
+      let lives = 9;
       let elapsed = 0;
       let spawnElapsed = 0;
       let previousFrame = 0;
-      let previousSecond = 30;
       let playerX = width / 2;
       let fallingTreats = [];
       let frameId = null;
@@ -234,9 +232,9 @@
           ctx.fillRect(0, 0, width, height - 44);
           ctx.fillStyle = '#1a1a1a';
           ctx.font = `600 ${Math.max(19, Math.min(32, width * .05))}px Fredoka, sans-serif`;
-          ctx.fillText(phase === 'ready' ? 'Ready for snack time?' : 'Snack time is over!', width / 2, height / 2 - 10);
+          ctx.fillText(phase === 'ready' ? 'Ready for snack time?' : 'Out of lives!', width / 2, height / 2 - 10);
           ctx.font = `700 ${Math.max(15, Math.min(19, width * .03))}px "Nunito Sans", sans-serif`;
-          ctx.fillText(phase === 'ready' ? 'Press Start game to play' : `You caught ${score} ${score === 1 ? 'treat' : 'treats'}!`, width / 2, height / 2 + 28);
+          ctx.fillText(phase === 'ready' ? 'Press Start game to play' : `Final score: ${score}`, width / 2, height / 2 + 28);
         }
       };
 
@@ -255,7 +253,7 @@
       window.addEventListener('resize', resizeCanvas);
       const updateDisplays = () => {
         scoreDisplay.textContent = String(score);
-        timeDisplay.textContent = String(Math.ceil(remaining / 1000));
+        livesDisplay.textContent = String(lives);
         bestDisplay.textContent = String(best);
       };
 
@@ -266,20 +264,18 @@
 
       const finishGame = () => {
         phase = 'over';
-        remaining = 0;
         stopLoop();
         actionButton.textContent = 'Play again';
-        statusDisplay.textContent = `Time! You caught ${score} ${score === 1 ? 'treat' : 'treats'}.`;
+        statusDisplay.textContent = `Game over! You caught ${score} ${score === 1 ? 'treat' : 'treats'}.`;
         updateDisplays();
         draw();
       };
 
       const startGame = () => {
         score = 0;
-        remaining = duration;
+        lives = 9;
         elapsed = 0;
         spawnElapsed = 0;
-        previousSecond = 30;
         playerX = width / 2;
         fallingTreats = [];
         phase = 'running';
@@ -296,16 +292,17 @@
         const delta = Math.min(now - previousFrame, 50);
         previousFrame = now;
         elapsed += delta;
-        remaining = Math.max(0, duration - elapsed);
         spawnElapsed += delta;
-        const spawnInterval = Math.max(480, 820 - elapsed / 100);
+        const difficulty = 1 + Math.min(2.2, elapsed / 30000);
+        const spawnInterval = Math.max(260, 820 / difficulty);
         while (spawnElapsed >= spawnInterval) {
           spawnElapsed -= spawnInterval;
           const treat = treats[Math.floor(Math.random() * treats.length)];
-          fallingTreats.push({ x: 38 + Math.random() * (width - 76), y: -34, speed: height * (.42 + Math.random() * .1) + Math.min(height * .3, elapsed / 180), image: treat.image, glyph: treat.glyph });
+          fallingTreats.push({ x: 38 + Math.random() * (width - 76), y: -34, speed: height * (.4 + Math.random() * .12) * difficulty, image: treat.image, glyph: treat.glyph });
         }
 
         fallingTreats = fallingTreats.filter(treat => {
+          if (phase !== 'running') return false;
           treat.y += treat.speed * delta / 1000;
           if (treat.y >= height - 78 && treat.y <= height - 36 && Math.abs(treat.x - playerX) < trayWidth() / 2 + 14) {
             score += 1;
@@ -317,19 +314,17 @@
             updateDisplays();
             return false;
           }
-          return treat.y < height + 30;
+          if (treat.y >= height + 30) {
+            lives -= 1;
+            updateDisplays();
+            if (lives === 0) finishGame();
+            else statusDisplay.textContent = `Oops! One treat got away. ${lives} ${lives === 1 ? 'life' : 'lives'} left.`;
+            return false;
+          }
+          return true;
         });
-
-        const currentSecond = Math.ceil(remaining / 1000);
-        if (currentSecond !== previousSecond) {
-          previousSecond = currentSecond;
-          updateDisplays();
-        }
+        if (phase !== 'running') return;
         draw();
-        if (remaining <= 0) {
-          finishGame();
-          return;
-        }
         frameId = window.requestAnimationFrame(gameFrame);
       };
 
