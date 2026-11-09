@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f3eee5">
-  <meta name="description" content="Play Snack Catch, a little Mora & Olfi game. Catch as many treats as you can in 30 seconds.">
-  <title>Snack Catch! — Mora &amp; Olfi Games</title>
+  <meta name="description" content="Choose a little Mora & Olfi game: Snack Catch, Ular Tangga, or Cari Mora.">
+  <title>Games — Mora &amp; Olfi</title>
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,6 +37,54 @@
     .games-footer { min-height:64px; display:flex; align-items:center; }
     .games-footer .wrap { display:flex; align-items:center; justify-content:space-between; gap:16px; font-size:.85rem; font-weight:700; }
     .games-footer p { margin:0; }
+    [hidden] { display:none !important; }
+    .games-library { min-height:calc(100svh - 136px); padding-block:clamp(48px,8vw,96px); background:var(--paper-light); }
+    .games-library h1 { max-width:700px; margin:0; font:600 clamp(2.7rem,6vw,5rem)/.96 var(--display); letter-spacing:-.045em; }
+    .games-library-intro { max-width:620px; margin:16px 0 34px; font-size:1.05rem; font-weight:700; }
+    .game-choice-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+    .game-choice { min-width:0; min-height:230px; display:grid; grid-template-rows:1fr auto auto; justify-items:start; gap:10px; padding:22px; border:2px solid var(--ink); border-radius:18px; background:var(--paper); color:var(--ink); text-align:left; cursor:pointer; transition:transform .2s ease,box-shadow .2s ease; }
+    .game-choice:hover { transform:translate(-2px,-3px); box-shadow:4px 5px 0 var(--ink); }
+    .game-choice-art { align-self:center; font-size:clamp(2.6rem,5vw,4rem); line-height:1; }
+    .game-choice-copy strong { display:block; font:600 1.45rem/1.1 var(--display); }
+    .game-choice-copy span { display:block; margin-top:6px; font-size:.9rem; font-weight:700; }
+    .game-choice-arrow { justify-self:end; font-size:1.4rem; font-weight:900; }
+    .game-back-wrap { padding-top:20px; }
+    .game-back { min-height:44px; padding:7px 13px; border:1.5px solid var(--ink); border-radius:999px; background:var(--paper-light); color:var(--ink); font:800 .88rem var(--body); cursor:pointer; }
+    .game-back:hover { background:var(--ink); color:var(--paper-light); }
+    .mini-game-section { min-height:calc(100svh - 136px); padding-block:clamp(36px,6vw,72px); border-bottom:2px solid var(--ink); background:var(--paper-light); }
+    .mini-game-heading { margin:18px auto 26px; }
+    .mini-game-heading h1 { margin:0; font:600 clamp(2.5rem,5vw,4rem)/.98 var(--display); letter-spacing:-.04em; }
+    .mini-game-heading p:not(.eyebrow) { max-width:620px; margin:12px 0 0; font-weight:700; }
+    .mini-game-panel { padding:clamp(12px,2vw,20px); border:3px solid var(--ink); border-radius:var(--curve); background:var(--paper); box-shadow:var(--shadow); }
+    .snakes-layout { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(220px,.8fr); gap:20px; align-items:start; }
+    .snakes-board { width:min(100%,540px); display:grid; grid-template-columns:repeat(10,minmax(0,1fr)); gap:2px; margin-inline:auto; padding:4px; border:2px solid var(--ink); border-radius:12px; background:var(--ink); aspect-ratio:1; }
+    .snake-cell { position:relative; min-width:0; display:flex; align-items:flex-start; justify-content:space-between; padding:2px; overflow:hidden; background:var(--paper-light); font-size:clamp(.55rem,1.15vw,.78rem); font-weight:800; line-height:1; }
+    .snake-cell:nth-child(odd) { background:#f6c891; }
+    .snake-cell-number { position:relative; z-index:1; }
+    .snake-cell-mark { position:absolute; inset:50% 0 auto; transform:translateY(-50%); text-align:center; font-size:clamp(.72rem,1.7vw,1.1rem); }
+    .snake-token-stack { position:absolute; z-index:2; right:1px; bottom:1px; display:flex; gap:1px; }
+    .snake-token { width:clamp(13px,2.2vw,22px); height:clamp(13px,2.2vw,22px); display:grid; place-items:center; border:1px solid var(--ink); border-radius:50%; background:#f47721; color:var(--ink); font-size:clamp(.48rem,.9vw,.68rem); }
+    .snake-token--olfi { background:#8792f5; }
+    .snakes-controls { display:grid; gap:12px; }
+    .snakes-turn { margin:0; font-weight:800; }
+    .snakes-die { width:64px; height:64px; display:grid; place-items:center; border:2px solid var(--ink); border-radius:14px; background:#fff; font:600 2rem var(--display); }
+    .snakes-actions { display:flex; flex-wrap:wrap; gap:9px; }
+    .snakes-actions button { min-height:46px; cursor:pointer; }
+    .snakes-actions button:disabled { opacity:.55; cursor:not-allowed; }
+    .snakes-status,.cari-status { min-height:1.5em; margin:0; font-weight:800; }
+    .snakes-legend { margin:0; padding-left:20px; font-size:.82rem; font-weight:700; }
+    .cari-stats { display:flex; justify-content:center; gap:10px; margin-bottom:14px; }
+    .cari-stat { min-width:94px; padding:7px 12px; border:1px solid var(--soft-line); border-radius:12px; background:#fff; text-align:center; }
+    .cari-stat span { display:block; font-size:.67rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    .cari-stat strong { font:600 1.25rem/1.2 var(--display); font-variant-numeric:tabular-nums; }
+    .cari-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:clamp(5px,1.2vw,10px); max-width:620px; margin:auto; }
+    .cari-tile { min-width:0; aspect-ratio:1; display:grid; place-items:center; padding:4px; border:1.5px solid var(--ink); border-radius:12px; background:var(--paper-light); font-size:clamp(1.3rem,5vw,2.2rem); cursor:pointer; touch-action:manipulation; }
+    .cari-tile:hover { background:#f6c891; }
+    .cari-tile img { width:100%; height:100%; object-fit:contain; }
+    .cari-tile:disabled { cursor:default; }
+    .cari-status { margin:12px 0; text-align:center; }
+    .cari-actions { display:flex; justify-content:center; gap:10px; }
+    .cari-actions button { min-height:46px; cursor:pointer; }
     .snack-game { overflow: hidden; border-block: 2px solid var(--ink); background: var(--orange); }
     .snack-game-layout { display: grid; grid-template-columns: minmax(0, .78fr) minmax(0, 1.22fr); gap: clamp(28px, 5vw, 68px); align-items: center; }
     .snack-game-copy .section-title { max-width: 460px; font-size: clamp(2.7rem, 5.5vw, 4.6rem); }
@@ -66,6 +114,14 @@
       .nav-links.open { display:flex; }
       .nav-links a { display:block; padding:12px 0; border-bottom:1px solid var(--soft-line); font-size:1rem; }
       .snack-game-layout { grid-template-columns:1fr; gap:24px; }
+      .game-choice-grid { grid-template-columns:1fr; }
+      .game-choice { min-height:150px; grid-template-columns:72px 1fr 24px; grid-template-rows:1fr; align-items:center; }
+      .game-choice-arrow { grid-column:3; grid-row:1; }
+      .game-choice-art { grid-column:1; grid-row:1; }
+      .game-choice-copy { grid-column:2; grid-row:1; }
+      .snakes-layout { grid-template-columns:1fr; }
+      .snakes-board { width:min(100%,480px); }
+      .snake-cell { font-size:clamp(.58rem,1.6vw,.78rem); }
     }
     @media (max-width:520px) {
       :root { --page:calc(100% - 28px); --curve:17px; }
@@ -79,6 +135,10 @@
       .snack-game-controls { gap: 8px; }
       .snack-game-move { gap: 6px; }
       .snack-game-action { min-width: 126px; padding-inline: 12px; }
+      .mini-game-panel { padding:9px; }
+      .snake-cell { padding:1px; }
+      .snake-token { width:16px; height:16px; font-size:.55rem; }
+      .cari-tile { border-radius:9px; }
       .games-footer .wrap { align-items:flex-start; flex-direction:column; }
     }
     @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition-duration:.01ms !important; } }
@@ -101,7 +161,33 @@
     </nav>
   </header>
   <main>
-    <section class="snack-game section-pad" id="snack-game" aria-labelledby="snack-game-title">
+    <section class="games-library" id="games-library" aria-labelledby="games-title">
+      <div class="wrap">
+        <p class="eyebrow">Mora &amp; Olfi playground</p>
+        <h1 id="games-title" tabindex="-1">Choose a game</h1>
+        <p class="games-library-intro">Pick a little game and jump right in.</p>
+        <div class="game-choice-grid">
+          <button class="game-choice" type="button" data-game="snack">
+            <span class="game-choice-art" aria-hidden="true">🍪</span>
+            <span class="game-choice-copy"><strong>Snack Catch</strong><span>Help Mora catch treats before time runs out.</span></span>
+            <span class="game-choice-arrow" aria-hidden="true">→</span>
+          </button>
+          <button class="game-choice" type="button" data-game="snakes">
+            <span class="game-choice-art" aria-hidden="true">🎲</span>
+            <span class="game-choice-copy"><strong>Ular Tangga</strong><span>Race Olfi to square 100. Watch for snakes!</span></span>
+            <span class="game-choice-arrow" aria-hidden="true">→</span>
+          </button>
+          <button class="game-choice" type="button" data-game="cari">
+            <span class="game-choice-art" aria-hidden="true">🔎</span>
+            <span class="game-choice-copy"><strong>Cari Mora</strong><span>Find Mora hiding among a crowd of characters.</span></span>
+            <span class="game-choice-arrow" aria-hidden="true">→</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="snack-game section-pad" id="snack-game" aria-labelledby="snack-game-title" hidden>
+      <div class="game-back-wrap wrap"><button class="game-back" type="button">← All games</button></div>
       <div class="snack-game-layout wrap">
         <div class="snack-game-copy">
           <p class="eyebrow">A little break</p>
@@ -125,6 +211,56 @@
             <button class="button snack-game-action" type="button" id="snack-action">Start game</button>
           </div>
           <p class="snack-game-instructions">Use ← and → or A and D. On touch screens, tap the arrows or drag Mora.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mini-game-section" id="snakes-game" aria-labelledby="snakes-title" hidden>
+      <div class="wrap">
+        <div class="game-back-wrap"><button class="game-back" type="button">← All games</button></div>
+        <div class="mini-game-heading">
+          <p class="eyebrow">Mora vs Olfi</p>
+          <h1 id="snakes-title" tabindex="-1">Ular Tangga</h1>
+          <p>Take turns rolling the dice. Climb ladders, avoid snakes, and be the first to reach 100.</p>
+        </div>
+        <div class="snakes-layout">
+          <div class="mini-game-panel"><div class="snakes-board" id="snakes-board" role="grid" aria-label="Ular Tangga board from square 1 to 100"></div></div>
+          <aside class="mini-game-panel snakes-controls">
+            <p class="eyebrow">Your turn</p>
+            <p class="snakes-turn" id="snakes-turn">Mora rolls first.</p>
+            <div class="snakes-die" id="snakes-die" aria-label="Dice result">—</div>
+            <div class="snakes-actions">
+              <button class="button" type="button" id="snakes-roll">Roll the dice</button>
+              <button class="game-back" type="button" id="snakes-reset">New game</button>
+            </div>
+            <p class="snakes-status" id="snakes-status" role="status" aria-live="polite">You are Mora. Olfi will play the other turn.</p>
+            <ol class="snakes-legend">
+              <li>Land on a ladder to climb up.</li>
+              <li>Land on a snake to slide down.</li>
+              <li>You need an exact roll to reach 100.</li>
+            </ol>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="mini-game-section" id="cari-game" aria-labelledby="cari-title" hidden>
+      <div class="wrap">
+        <div class="game-back-wrap"><button class="game-back" type="button">← All games</button></div>
+        <div class="mini-game-heading">
+          <p class="eyebrow">Look closely</p>
+          <h1 id="cari-title" tabindex="-1">Cari Mora</h1>
+          <p>Find Mora among the characters as many times as you can in 30 seconds.</p>
+        </div>
+        <div class="mini-game-panel" style="max-width:760px;margin-inline:auto">
+          <div class="cari-stats" aria-label="Game score">
+            <div class="cari-stat"><span>Found</span><strong id="cari-score">0</strong></div>
+            <div class="cari-stat"><span>Time</span><strong id="cari-time">30</strong></div>
+            <div class="cari-stat"><span>Best</span><strong id="cari-best">0</strong></div>
+          </div>
+          <div class="cari-grid" id="cari-grid" role="group" aria-label="Find Mora among these characters"></div>
+          <p class="cari-status" id="cari-status" role="status" aria-live="polite">Find Mora!</p>
+          <div class="cari-actions"><button class="button" type="button" id="cari-again" hidden>Play again</button></div>
         </div>
       </div>
     </section>
@@ -370,7 +506,254 @@
       });
       catcherImage.addEventListener('load', draw);
       resizeCanvas();
+      window.startSnackCatch = startGame;
+      window.resizeSnackCatch = resizeCanvas;
+      window.pauseSnackCatch = () => {
+        if (phase !== 'running') return;
+        phase = 'paused';
+        stopLoop();
+        actionButton.textContent = 'Resume';
+        statusDisplay.textContent = 'Paused. Press Resume when you are ready.';
+        draw();
+      };
     }
+
+    const gamesLibrary = document.querySelector('#games-library');
+    const gameSections = {
+      snack: document.querySelector('#snack-game'),
+      snakes: document.querySelector('#snakes-game'),
+      cari: document.querySelector('#cari-game')
+    };
+    let activeGame = null;
+    let olfiTurnTimer = null;
+    let cariTimer = null;
+
+    const stopCariGame = () => {
+      if (cariTimer !== null) window.clearInterval(cariTimer);
+      cariTimer = null;
+    };
+
+    const showGamesLibrary = () => {
+      if (activeGame === 'snack' && window.pauseSnackCatch) window.pauseSnackCatch();
+      if (olfiTurnTimer !== null) window.clearTimeout(olfiTurnTimer);
+      olfiTurnTimer = null;
+      stopCariGame();
+      Object.values(gameSections).forEach(section => { section.hidden = true; });
+      gamesLibrary.hidden = false;
+      activeGame = null;
+      gamesLibrary.querySelector('h1').focus({ preventScroll: true });
+    };
+
+    document.querySelectorAll('.game-back-wrap .game-back').forEach(button => {
+      button.addEventListener('click', showGamesLibrary);
+    });
+
+    const snakeBoard = document.querySelector('#snakes-board');
+    const snakeTurnDisplay = document.querySelector('#snakes-turn');
+    const snakeDieDisplay = document.querySelector('#snakes-die');
+    const snakeRollButton = document.querySelector('#snakes-roll');
+    const snakeStatus = document.querySelector('#snakes-status');
+    const snakePositions = { Mora: 1, Olfi: 1 };
+    let snakeTurn = 'Mora';
+    let snakeGameOver = false;
+    const ladders = new Map([[4,25],[13,46],[33,49],[42,63],[50,69],[62,81],[74,92]]);
+    const snakes = new Map([[27,5],[40,3],[43,18],[54,31],[66,45],[76,58],[89,53],[99,41]]);
+
+    for (let rowFromBottom = 9; rowFromBottom >= 0; rowFromBottom -= 1) {
+      for (let column = 0; column < 10; column += 1) {
+        const number = rowFromBottom * 10 + (rowFromBottom % 2 === 0 ? column + 1 : 10 - column);
+        const cell = document.createElement('div');
+        cell.className = 'snake-cell';
+        cell.setAttribute('role', 'gridcell');
+        cell.dataset.square = String(number);
+        const numberLabel = document.createElement('span');
+        numberLabel.className = 'snake-cell-number';
+        numberLabel.textContent = String(number);
+        cell.append(numberLabel);
+        if (ladders.has(number) || snakes.has(number)) {
+          const mark = document.createElement('span');
+          mark.className = 'snake-cell-mark';
+          mark.textContent = ladders.has(number) ? '🪜' : '🐍';
+          mark.setAttribute('aria-hidden', 'true');
+          cell.append(mark);
+        }
+        snakeBoard.append(cell);
+      }
+    }
+
+    const renderSnakeTokens = () => {
+      snakeBoard.querySelectorAll('.snake-token-stack').forEach(stack => stack.remove());
+      Object.entries(snakePositions).forEach(([player, position]) => {
+        const cell = snakeBoard.querySelector(`[data-square="${position}"]`);
+        if (!cell) return;
+        let stack = cell.querySelector('.snake-token-stack');
+        if (!stack) {
+          stack = document.createElement('span');
+          stack.className = 'snake-token-stack';
+          stack.setAttribute('aria-hidden', 'true');
+          cell.append(stack);
+        }
+        const token = document.createElement('span');
+        token.className = `snake-token${player === 'Olfi' ? ' snake-token--olfi' : ''}`;
+        token.textContent = player === 'Mora' ? 'M' : 'O';
+        stack.append(token);
+      });
+    };
+
+    const resetSnakeGame = () => {
+      if (olfiTurnTimer !== null) window.clearTimeout(olfiTurnTimer);
+      olfiTurnTimer = null;
+      snakePositions.Mora = 1;
+      snakePositions.Olfi = 1;
+      snakeTurn = 'Mora';
+      snakeGameOver = false;
+      snakeTurnDisplay.textContent = 'Mora rolls first.';
+      snakeDieDisplay.textContent = '—';
+      snakeRollButton.disabled = false;
+      snakeStatus.textContent = 'You are Mora. Olfi will play the other turn.';
+      renderSnakeTokens();
+    };
+    document.querySelector('#snakes-reset').addEventListener('click', resetSnakeGame);
+
+    const rollSnakeTurn = () => {
+      if (snakeGameOver) return;
+      const player = snakeTurn;
+      const roll = Math.floor(Math.random() * 6) + 1;
+      const start = snakePositions[player];
+      snakeDieDisplay.textContent = String(roll);
+      snakeTurnDisplay.textContent = `${player} rolled ${roll}.`;
+      let destination = start + roll;
+      if (destination > 100) destination = start;
+      else if (ladders.has(destination)) destination = ladders.get(destination);
+      else if (snakes.has(destination)) destination = snakes.get(destination);
+      snakePositions[player] = destination;
+      renderSnakeTokens();
+
+      if (destination === 100) {
+        snakeGameOver = true;
+        snakeRollButton.disabled = true;
+        snakeStatus.textContent = `${player} wins! Start a new game to play again.`;
+        return;
+      }
+      const detail = destination === start ? ' Needs an exact roll to reach 100.'
+        : ladders.get(start + roll) === destination ? ` Climb the ladder to ${destination}!`
+        : snakes.get(start + roll) === destination ? ` Oh no, the snake slides down to ${destination}.` : '';
+      snakeStatus.textContent = `${player} moved from ${start} to ${destination}.${detail}`;
+      snakeTurn = player === 'Mora' ? 'Olfi' : 'Mora';
+      snakeTurnDisplay.textContent = `${snakeTurn}'s turn.`;
+      if (snakeTurn === 'Olfi') {
+        snakeRollButton.disabled = true;
+        olfiTurnTimer = window.setTimeout(() => {
+          olfiTurnTimer = null;
+          if (activeGame !== 'snakes' || snakeGameOver) return;
+          rollSnakeTurn();
+          if (!snakeGameOver) snakeRollButton.disabled = false;
+        }, 700);
+      }
+    };
+    snakeRollButton.addEventListener('click', rollSnakeTurn);
+    resetSnakeGame();
+
+    const cariGrid = document.querySelector('#cari-grid');
+    const cariScoreDisplay = document.querySelector('#cari-score');
+    const cariTimeDisplay = document.querySelector('#cari-time');
+    const cariBestDisplay = document.querySelector('#cari-best');
+    const cariStatus = document.querySelector('#cari-status');
+    const cariAgain = document.querySelector('#cari-again');
+    const crowd = ['🐈','🐈‍⬛','🐱','🦊','🐯','🐼','🐰','🐸','🐵','🐻','🐹','🐨'];
+    let cariScore = 0;
+    let cariRemaining = 30;
+    let cariRunning = false;
+    let cariBest = 0;
+    try { cariBest = Number(localStorage.getItem('mora-olfi-cari-mora-best')) || 0; } catch (error) {}
+    cariBestDisplay.textContent = String(cariBest);
+
+    const buildCariGrid = () => {
+      const targetIndex = Math.floor(Math.random() * 25);
+      cariGrid.replaceChildren();
+      for (let index = 0; index < 25; index += 1) {
+        const tile = document.createElement('button');
+        tile.type = 'button';
+        tile.className = 'cari-tile';
+        if (index === targetIndex) {
+          tile.setAttribute('aria-label', 'Mora');
+          const mora = document.createElement('img');
+          mora.src = 'images-transparent.png';
+          mora.alt = '';
+          tile.append(mora);
+          tile.addEventListener('click', () => {
+            if (!cariRunning) return;
+            cariScore += 1;
+            cariScoreDisplay.textContent = String(cariScore);
+            if (cariScore > cariBest) {
+              cariBest = cariScore;
+              cariBestDisplay.textContent = String(cariBest);
+              try { localStorage.setItem('mora-olfi-cari-mora-best', String(cariBest)); } catch (error) {}
+            }
+            cariStatus.textContent = 'You found Mora! Find her again!';
+            buildCariGrid();
+          });
+        } else {
+          const character = crowd[Math.floor(Math.random() * crowd.length)];
+          tile.textContent = character;
+          tile.setAttribute('aria-label', 'Not Mora');
+          tile.addEventListener('click', () => {
+            if (cariRunning) cariStatus.textContent = 'Not Mora — keep looking!';
+          });
+        }
+        cariGrid.append(tile);
+      }
+    };
+
+    const endCariGame = () => {
+      cariRunning = false;
+      stopCariGame();
+      cariGrid.querySelectorAll('button').forEach(tile => { tile.disabled = true; });
+      cariTimeDisplay.textContent = '0';
+      cariStatus.textContent = `Time! You found Mora ${cariScore} ${cariScore === 1 ? 'time' : 'times'}.`;
+      cariAgain.hidden = false;
+    };
+
+    const startCariGame = () => {
+      stopCariGame();
+      cariScore = 0;
+      cariRemaining = 30;
+      cariRunning = true;
+      cariScoreDisplay.textContent = '0';
+      cariTimeDisplay.textContent = '30';
+      cariAgain.hidden = true;
+      cariStatus.textContent = 'Find Mora!';
+      buildCariGrid();
+      cariTimer = window.setInterval(() => {
+        cariRemaining -= 1;
+        cariTimeDisplay.textContent = String(cariRemaining);
+        if (cariRemaining <= 0) endCariGame();
+      }, 1000);
+    };
+    cariAgain.addEventListener('click', startCariGame);
+
+    const launchGame = name => {
+      gamesLibrary.hidden = true;
+      Object.values(gameSections).forEach(section => { section.hidden = true; });
+      gameSections[name].hidden = false;
+      activeGame = name;
+      if (name === 'snack') {
+        window.resizeSnackCatch();
+        window.startSnackCatch();
+      } else if (name === 'snakes') {
+        resetSnakeGame();
+      } else if (name === 'cari') {
+        startCariGame();
+      }
+      const heading = gameSections[name].querySelector('h1');
+      if (heading) heading.focus({ preventScroll: true });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    document.querySelectorAll('[data-game]').forEach(button => {
+      button.addEventListener('click', () => launchGame(button.dataset.game));
+    });
+
     const menuButton = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     menuButton.addEventListener('click', () => {
