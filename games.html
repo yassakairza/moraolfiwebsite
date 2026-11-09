@@ -84,11 +84,12 @@
     .snack-game-stat strong { display: block; font: 600 1.25rem/1.2 var(--display); font-variant-numeric: tabular-nums; }
     #snack-canvas { display: block; width: 100%; aspect-ratio: 1.28; border: 2px solid var(--ink); border-radius: 15px; background: var(--paper); touch-action: pan-y; }
     .snack-game-status { min-height: 1.55em; margin: 9px 0; text-align: center; font-size: .88rem; font-weight: 800; }
-    .snack-game-controls { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .snack-game-move { display: flex; gap: 9px; }
-    .snack-game-move button { display: grid; width: 48px; height: 48px; place-items: center; padding: 0; border: 2px solid var(--ink); border-radius: 50%; background: var(--paper-light); color: var(--ink); font-size: 1.25rem; font-weight: 900; cursor: pointer; touch-action: manipulation; }
-    .snack-game-move button:hover { background: var(--ink); color: var(--paper-light); }
-    .snack-game-action { min-width: 142px; cursor: pointer; }
+    .snack-game-controls { display: grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:12px; }
+    .snack-game-controls > button:not(.snack-game-action) { width:52px; height:52px; display:grid; place-items:center; padding:0; border:2px solid var(--ink); border-radius:50%; background:var(--paper-light); color:var(--ink); font-size:1.25rem; font-weight:900; cursor:pointer; touch-action:manipulation; }
+    .snack-game-controls > button:not(.snack-game-action):hover { background:var(--ink); color:var(--paper-light); }
+    #snack-left { justify-self:start; }
+    #snack-right { justify-self:end; }
+    .snack-game-action { justify-self:center; min-width:142px; cursor:pointer; }
     .snack-game-action:disabled { cursor: not-allowed; opacity: .55; }
     .snack-game-instructions { margin: 12px 0 0; text-align: center; font-size: .8rem; font-weight: 700; }
     @media (max-width:820px) {
@@ -120,7 +121,6 @@
       .snack-game-stat { padding: 6px 8px; }
       .snack-game-stat span { font-size: .6rem; }
       .snack-game-controls { gap: 8px; }
-      .snack-game-move { gap: 6px; }
       .snack-game-action { min-width: 126px; padding-inline: 12px; }
       .maze-actions { flex-direction:column; }
       .maze-pad { grid-template-columns:repeat(3,48px); grid-template-rows:repeat(2,44px); gap:4px; }
@@ -184,13 +184,11 @@
           <canvas id="snack-canvas" width="960" height="750" tabindex="0" aria-label="Snack Catch game. Move Mora left and right to catch falling food.">Your browser does not support this game canvas.</canvas>
           <p class="snack-game-status" id="snack-status" role="status" aria-live="polite">Press “Start game” when you’re ready.</p>
           <div class="snack-game-controls">
-            <div class="snack-game-move" role="group" aria-label="Move Mora">
-              <button type="button" id="snack-left" aria-label="Move left">←</button>
-              <button type="button" id="snack-right" aria-label="Move right">→</button>
-            </div>
+            <button type="button" id="snack-left" aria-label="Move left">←</button>
             <button class="button snack-game-action" type="button" id="snack-action">Start game</button>
+            <button type="button" id="snack-right" aria-label="Move right">→</button>
           </div>
-          <p class="snack-game-instructions">Use ← and → or A and D. On touch screens, tap the arrows or drag Mora.</p>
+          <p class="snack-game-instructions">Move with ←/→ or A/D. Use the side arrows on touch screens. Catch the golden heart snack for an extra life.</p>
         </div>
       </div>
     </section>
@@ -265,7 +263,6 @@
       let playerX = width / 2;
       let fallingTreats = [];
       let frameId = null;
-      let dragging = false;
 
       try { best = Number(localStorage.getItem('mora-olfi-snack-catch-best')) || 0; } catch (error) {}
       bestDisplay.textContent = String(best);
@@ -315,9 +312,36 @@
             const scale = size / Math.max(image.naturalWidth, image.naturalHeight);
             const imageWidth = image.naturalWidth * scale;
             const imageHeight = image.naturalHeight * scale;
+            if (treat.bonusLife) {
+              ctx.save();
+              ctx.fillStyle = 'rgba(255,205,54,.38)';
+              ctx.strokeStyle = '#e4a900';
+              ctx.lineWidth = Math.max(2, size * .06);
+              ctx.shadowColor = '#ffc928';
+              ctx.shadowBlur = 12;
+              ctx.beginPath();
+              ctx.arc(treat.x, treat.y, size * .58, 0, Math.PI * 2);
+              ctx.fill();
+              ctx.stroke();
+              ctx.restore();
+            }
             ctx.drawImage(image, treat.x - imageWidth / 2, treat.y - imageHeight / 2, imageWidth, imageHeight);
+            if (treat.bonusLife) {
+              ctx.save();
+              ctx.fillStyle = '#d72755';
+              ctx.font = `700 ${Math.max(13, size * .32)}px sans-serif`;
+              ctx.fillText('♥', treat.x + imageWidth * .4, treat.y - imageHeight * .4);
+              ctx.restore();
+            }
           } else {
             ctx.fillText(treat.glyph, treat.x, treat.y);
+            if (treat.bonusLife) {
+              ctx.save();
+              ctx.fillStyle = '#d72755';
+              ctx.font = '700 16px sans-serif';
+              ctx.fillText('♥', treat.x + 16, treat.y - 16);
+              ctx.restore();
+            }
           }
         });
 
@@ -390,10 +414,15 @@
         const speedStep = Math.min(9, Math.floor(elapsed / 30000));
         const difficulty = .65 + speedStep * .2;
         const spawnInterval = Math.max(360, 1000 - speedStep * 80);
+        const createFallingTreat = () => {
+          const bonusLife = Math.random() < .08;
+          const treat = bonusLife ? treats.find(item => item.src === 'snack-egg.png') : treats[Math.floor(Math.random() * treats.length)];
+          return { x: 38 + Math.random() * (width - 76), y: -34, speed: height * (.4 + Math.random() * .12) * difficulty, image: treat.image, glyph: treat.glyph, bonusLife };
+        };
         while (spawnElapsed >= spawnInterval) {
           spawnElapsed -= spawnInterval;
-          const treat = treats[Math.floor(Math.random() * treats.length)];
-          fallingTreats.push({ x: 38 + Math.random() * (width - 76), y: -34, speed: height * (.4 + Math.random() * .12) * difficulty, image: treat.image, glyph: treat.glyph });
+          fallingTreats.push(createFallingTreat());
+          if (score > 100 && Math.random() < .2) fallingTreats.push(createFallingTreat());
         }
 
         fallingTreats = fallingTreats.filter(treat => {
@@ -405,7 +434,16 @@
               best = score;
               try { localStorage.setItem('mora-olfi-snack-catch-best', String(best)); } catch (error) {}
             }
-            if (score % 5 === 0) statusDisplay.textContent = `Yum! ${score} treats caught.`;
+            if (treat.bonusLife) {
+              if (lives < 9) {
+                lives += 1;
+                statusDisplay.textContent = `Bonus snack! +1 life. ${lives} lives left.`;
+              } else {
+                statusDisplay.textContent = 'Bonus snack caught! Your lives are already full.';
+              }
+            } else if (score % 5 === 0) {
+              statusDisplay.textContent = `Yum! ${score} treats caught.`;
+            }
             updateDisplays();
             return false;
           }
@@ -443,35 +481,23 @@
 
       const movePlayer = direction => {
         if (phase !== 'running') return;
-        playerX = Math.max(trayWidth() / 2, Math.min(width - trayWidth() / 2, playerX + direction * 76));
+        const step = Math.max(34, Math.min(76, width * .13));
+        playerX = Math.max(trayWidth() / 2, Math.min(width - trayWidth() / 2, playerX + direction * step));
         draw();
       };
       leftButton.addEventListener('click', () => movePlayer(-1));
       rightButton.addEventListener('click', () => movePlayer(1));
 
-      canvas.addEventListener('keydown', event => {
-        const direction = event.key === 'ArrowLeft' || event.key.toLowerCase() === 'a' ? -1
-          : event.key === 'ArrowRight' || event.key.toLowerCase() === 'd' ? 1 : 0;
+      document.addEventListener('keydown', event => {
+        if (phase !== 'running' || event.repeat) return;
+        const key = event.key.toLowerCase();
+        const direction = event.key === 'ArrowLeft' || key === 'a' ? -1
+          : event.key === 'ArrowRight' || key === 'd' ? 1 : 0;
         if (direction) {
           event.preventDefault();
           movePlayer(direction);
         }
       });
-      canvas.addEventListener('pointerdown', event => {
-        if (phase !== 'running') return;
-        dragging = true;
-        canvas.setPointerCapture(event.pointerId);
-        playerX = Math.max(trayWidth() / 2, Math.min(width - trayWidth() / 2, event.offsetX / canvas.clientWidth * width));
-        canvas.focus({ preventScroll: true });
-        draw();
-      });
-      canvas.addEventListener('pointermove', event => {
-        if (phase !== 'running' || !dragging) return;
-        playerX = Math.max(trayWidth() / 2, Math.min(width - trayWidth() / 2, event.offsetX / canvas.clientWidth * width));
-        draw();
-      });
-      canvas.addEventListener('pointerup', () => { dragging = false; });
-      canvas.addEventListener('pointercancel', () => { dragging = false; });
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'hidden' && phase === 'running') {
           phase = 'paused';
